@@ -31,7 +31,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: source-drift-${{ github.ref }}
+  group: source-drift-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:

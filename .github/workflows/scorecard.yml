@@ -10,7 +10,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: scorecard-${{ github.workflow }}-${{ github.ref }}
+  group: scorecard-${{ github.workflow }}-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       id-token: write
       contents: read
       actions: read
-    uses: NDDev-it-com/ci-workflows/.github/workflows/public-scorecard-json.yml@7f69c724923d06b2c2057c5a6ad341c37f1a8995 # 0.13.3
+    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/public-scorecard-json.yml@36bea6e4ac643872e9a504b2fe19aad9487e398a # 0.2.0-dev
     with:
       # Public repo: pull_request runs untrusted fork code. Pin the hosted runner
       # explicitly — the reusable's `runner` default belongs to the pinned commit,

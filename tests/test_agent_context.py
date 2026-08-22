@@ -127,7 +127,7 @@ def _reusable_callers() -> list[tuple[Path, bool, bool, bool, str]]:
     for path in sorted(WORKFLOWS.glob("*.yml")):
         lines = path.read_text(encoding="utf-8").splitlines()
         for index, line in enumerate(lines):
-            if "uses: NDDev-it-com/ci-workflows/" not in line:
+            if "uses: NDDev-OpenNetwork/ci-workflows/" not in line:
                 continue
             indent = len(line) - len(line.lstrip())
             has_with = names_runner = exempt = False
