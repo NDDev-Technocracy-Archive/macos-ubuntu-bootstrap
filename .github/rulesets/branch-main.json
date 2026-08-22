@@ -55,7 +55,7 @@
             "context": "bootstrap-gate"
           },
           {
-            "context": "bootstrap-pytests / python (3.14)"
+            "context": "bootstrap-pytests / python (uv, 3.14)"
           },
           {
             "context": "Gitleaks secret scan / Gitleaks secret scan"
