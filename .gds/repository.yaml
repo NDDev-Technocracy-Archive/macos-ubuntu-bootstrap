@@ -76,7 +76,7 @@ verification:
     - "Dependency pin checks"
     - "Gitleaks secret scan / Gitleaks secret scan"
     - "bootstrap-gate"
-    - "bootstrap-pytests / python (3.14)"
+    - "bootstrap-pytests / python (uv, 3.14)"
     - "dependency-review / Dependency review"
 
 agent:
