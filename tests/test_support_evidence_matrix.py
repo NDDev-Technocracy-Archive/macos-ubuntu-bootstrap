@@ -613,19 +613,11 @@ def test_every_ubuntu_lane_declares_which_releases_it_proves() -> None:
         )
 
 
-def test_superseded_evidence_runs_do_not_hold_the_queue() -> None:
-    """A run for an older head answers a question nobody is asking.
-
-    `evidence-gate` proves the artifacts belong to one exact SHA, and the
-    release gate resolves a candidate through the head whose gate is green.
-    Both read the current head. With 21 lanes and `max-parallel: 2`, letting
-    each push queue a full run behind the one it invalidated turned two quick
-    corrections into two hours of runner time.
-    """
+def test_every_evidence_run_is_preserved() -> None:
+    """Every real evidence run must finish instead of being discarded."""
     block = EVIDENCE_WORKFLOW.split("\nconcurrency:\n", 1)[1].split("\n\n", 1)[0]
-    assert "cancel-in-progress: true" in block
-    # The group must still be per pull request, or one PR would cancel another.
-    assert "github.event.pull_request.number" in block
+    assert "cancel-in-progress: false" in block
+    assert "github.run_id" in block
 
 
 # ------------------- the gate reports for every topology -------------------

@@ -45,18 +45,11 @@ on:
 permissions: {}
 
 concurrency:
-  group: platform-evidence-${{ github.event.pull_request.number }}
-  # A superseded run is worthless here, so it should not hold the queue.
-  #
-  # `evidence-gate` proves the artifacts belong to one exact SHA, and
-  # `release.yml` resolves a candidate's evidence through the head whose gate is
-  # green -- both look at the current head, never an older one. Meanwhile the
-  # lane count doubled when 26.04 gained its own coverage, and `max-parallel: 2`
-  # serialises the sandbox matrix, so a run takes the better part of an hour.
-  # Letting each push queue a full run behind the one it invalidated made two
-  # quick corrections cost two hours of runner time and delayed the answer to
-  # the only question that mattered.
-  cancel-in-progress: true
+  group: platform-evidence-${{ github.run_id }}
+  # Every real evidence run is retained. The run-id group prevents a later
+  # commit from replacing a queued or running result while the bounded matrix
+  # continues to protect hosted-runner capacity through max-parallel.
+  cancel-in-progress: false
 
 # Which paths can change what a device gets. Producer jobs run only when the
 # pull request touches one of them; `evidence-gate` reports either way.

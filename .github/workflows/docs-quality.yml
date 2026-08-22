@@ -9,15 +9,15 @@ on:
 permissions: {}
 
 concurrency:
-  group: docs-quality-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: docs-quality-${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   docs-quality:
     name: Docs quality
     permissions:
       contents: read
-    uses: NDDev-it-com/ci-workflows/.github/workflows/docs-quality.yml@7f69c724923d06b2c2057c5a6ad341c37f1a8995 # 0.13.3
+    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/docs-quality.yml@36bea6e4ac643872e9a504b2fe19aad9487e398a # 0.2.0-dev
     with:
       # Public repo: pull_request runs untrusted fork code. Pin the hosted runner
       # explicitly. The estate runner platform forbids public/fork code on a

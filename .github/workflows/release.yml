@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: release-${{ github.workflow }}-${{ inputs.version || github.ref_name }}
+  group: release-${{ github.workflow }}-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:
@@ -346,7 +346,7 @@ jobs:
       id-token: write
       attestations: write
       artifact-metadata: write   # actions/attest artifact storage record (required at v4.1.1)
-    uses: NDDev-it-com/ci-workflows/.github/workflows/release-supply-chain.yml@7f69c724923d06b2c2057c5a6ad341c37f1a8995 # 0.13.3
+    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/release-supply-chain.yml@36bea6e4ac643872e9a504b2fe19aad9487e398a # 0.2.0-dev
     with:
       # Public repo: pull_request runs untrusted fork code. Pin the hosted runner
       # explicitly. The estate runner platform forbids public/fork code on a

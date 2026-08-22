@@ -7,6 +7,11 @@ remains available in immutable Git tags.
 
 ### Added
 
+- CI callers now use the public OpenNetwork workflow engine while all public
+  Ubuntu, ARM, macOS, and Windows jobs remain on standard GitHub-hosted runners.
+  Run-id-unique concurrency preserves every queued and running evidence job,
+  and the protected Python context names the reusable workflow's actual `uv`
+  check identity.
 - An ADR that names a test as its enforcement must name one that exists. ADR 0008
   now cites `test_no_script_grants_docker_group_membership` in place of the
   contract key nothing read — an improvement only while the name resolves, since
