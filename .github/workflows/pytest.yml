@@ -28,6 +28,11 @@ jobs:
       # a job asking for a label no runner advertises queues indefinitely.
       runner: ubuntu-latest
       python_version: "3.14"
+      # Match the installation contract so setup-uv supplies the exact binary
+      # that setup-test-env verifies. A different reusable default forced the
+      # bootstrap to download uv again and made a transient GitHub reset fail
+      # the main run after the PR had passed.
+      uv_version: "0.12.5"
       # One script owns the test environment, and `.gds/repository.yaml`
       # declares the same one as its `bootstrap` lane. These steps used to live
       # here as a shell one-liner and nowhere else, so the module's own declared

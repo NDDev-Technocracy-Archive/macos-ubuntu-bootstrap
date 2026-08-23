@@ -337,6 +337,10 @@ def test_ci_and_the_anchor_use_one_test_environment() -> None:
     assert f"install_command: bash {SETUP_SCRIPT}" in pytest_workflow, (
         f"pytest.yml must delegate environment setup to {SETUP_SCRIPT}"
     )
+    assert f'uv_version: "{CONTRACT["runtime_support"]["ubuntu_uv"]}"' in pytest_workflow, (
+        "the reusable Python lane must provision the exact uv version that "
+        "setup-test-env verifies"
+    )
     for setup in ("apt-get install", "uv venv", "uv pip install"):
         assert setup not in pytest_workflow, (
             f"pytest.yml restates {setup!r} instead of calling {SETUP_SCRIPT}"
