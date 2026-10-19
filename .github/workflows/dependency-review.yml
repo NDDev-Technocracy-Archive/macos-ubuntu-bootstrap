@@ -16,7 +16,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/public-dependency-review.yml@36bea6e4ac643872e9a504b2fe19aad9487e398a # 0.2.0-dev
+    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/public-dependency-review.yml@4b53916e8a7b1c2dd220766b6dd4170a843f622e # 0.2.0-dev
     with:
       # Public repo: pull_request runs untrusted fork code. Pin the hosted runner
       # explicitly — the reusable's `runner` default belongs to the pinned commit,
