@@ -21,8 +21,6 @@ name: dependency-check
 # blocks.
 
 on:
-  schedule:
-    - cron: "40 6 * * 1"
   push:
     branches: [main]
   pull_request:
@@ -39,7 +37,7 @@ concurrency:
 jobs:
   dependency-pins:
     name: Dependency pin checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     permissions:
       contents: read

@@ -37,7 +37,7 @@ concurrency:
 jobs:
   discover:
     name: Official source drift
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
       contents: read
@@ -119,9 +119,11 @@ jobs:
       - name: A pin that is behind is a finding, not a note
         run: |
           set -euo pipefail
-          status='${{ steps.snapshot.outputs.status }}'
+          status="${STEPS_SNAPSHOT_OUTPUTS_STATUS}"
           if [ "$status" != 0 ]; then
             echo "source drift found; see the job summary and the uploaded report" >&2
             exit 1
           fi
           echo "every pin is current, held, or within the unknown tolerance"
+        env:
+          STEPS_SNAPSHOT_OUTPUTS_STATUS: ${{ steps.snapshot.outputs.status }}
