@@ -346,15 +346,18 @@ jobs:
       id-token: write
       attestations: write
       artifact-metadata: write   # actions/attest artifact storage record (required at v4.1.1)
-    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/release-supply-chain.yml@36bea6e4ac643872e9a504b2fe19aad9487e398a # 0.2.0-dev
-    with:
-      # Public repo: pull_request runs untrusted fork code. Pin the hosted runner
-      # explicitly. The estate runner platform forbids public/fork code on a
-      # trusted runner group (modules/github-actions, docs/threat-model.md),
-      # and this repository is public. The reusable's default belongs to the
-      # pinned commit, not here. A wrong value does not fail loudly either:
-      # a job asking for a label no runner advertises queues indefinitely.
-      runner: ubuntu-latest
-      version: ${{ needs.resolve.outputs.version }}
-      package_name: macos-ubuntu-bootstrap
-      archive_paths: "README.md LICENSE NOTICE SECURITY.md VERSION CHANGELOG.md AGENTS.md .claude .github config scripts templates docs"
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ needs.resolve.outputs.version }}
+          fetch-depth: 0
+          persist-credentials: false
+      # Publication moved from the retired release-supply-chain reusable to the
+      # STD-0004 library composite: same assets, one immutable release create.
+      - uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/source-release@ab5739f31d142275590b35c654def3e027ec6c4f # nddev-cicd-v0.6.22
+        with:
+          version: ${{ needs.resolve.outputs.version }}
+          package-name: macos-ubuntu-bootstrap
+          archive-paths: "README.md LICENSE NOTICE SECURITY.md VERSION CHANGELOG.md AGENTS.md .claude .github config scripts templates docs"
