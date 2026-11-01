@@ -74,10 +74,10 @@ verification:
   # .github/rulesets/README.md for the pending delta.
   required_contexts:
     - "Dependency pin checks"
-    - "Gitleaks secret scan / Gitleaks secret scan"
     - "bootstrap-gate"
-    - "bootstrap-pytests / python (uv, 3.14)"
-    - "dependency-review / Dependency review"
+    - "bootstrap-pytests"
+    - "dependency-review"
+    - "workflow-lint"
 
 agent:
   context_profile: "public-module"

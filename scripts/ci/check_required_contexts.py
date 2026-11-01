@@ -114,11 +114,52 @@ def live_contexts(repo: str = DEFAULT_REPO) -> list[str]:
         for check in rule.get("parameters", {}).get("required_status_checks", [])
     ]
     if not contexts:
+        contexts = _disabled_ruleset_contexts(repo)
+    if not contexts:
         raise ContextError(
             f"{endpoint} reports no required status check; either the ruleset was "
             "emptied or this token cannot see it"
         )
     return sorted(contexts)
+
+
+def _disabled_ruleset_contexts(repo: str) -> list[str]:
+    """Contexts of a branch ruleset that exists but is not enforced.
+
+    The rules endpoint lists only enforced rules. In the Archive the owner
+    disabled the rulesets (2026-10-22), so the rules endpoint is empty while
+    the ruleset still states what protects main; that definition is what the
+    mirror must match. Rulesets are readable with read access.
+    """
+    contexts: list[str] = []
+    try:
+        listed = subprocess.run(
+            ["gh", "api", f"/repos/{repo}/rulesets"],
+            capture_output=True, text=True, check=True,
+        )
+        for summary in json.loads(listed.stdout):
+            if summary.get("target") != "branch" or summary.get("enforcement") == "active":
+                continue
+            detail = subprocess.run(
+                ["gh", "api", f"/repos/{repo}/rulesets/{summary['id']}"],
+                capture_output=True, text=True, check=True,
+            )
+            ruleset = json.loads(detail.stdout)
+            found = [
+                check["context"]
+                for rule in ruleset.get("rules", [])
+                if rule.get("type") == "required_status_checks"
+                for check in rule.get("parameters", {}).get("required_status_checks", [])
+            ]
+            if found:
+                print(
+                    f"required-contexts-notice: ruleset {ruleset.get('name')!r} is "
+                    f"{ruleset.get('enforcement')}; comparing its definition"
+                )
+                contexts += found
+    except (FileNotFoundError, subprocess.CalledProcessError, json.JSONDecodeError):
+        return []
+    return contexts
 
 
 def _report(name_a: str, a: list[str], name_b: str, b: list[str]) -> None:
