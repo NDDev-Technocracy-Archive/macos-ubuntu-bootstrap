@@ -92,7 +92,7 @@ def test_rust_tree_is_permission_normalized_before_its_receipt() -> None:
     guarantee. The receipt covers five executables, so a writable directory beside
     them is enough to add a library without invalidating it.
 
-    Node's `npm`/`npx`/`corepack` entries look group-writable to `find -perm /022`
+    Node's `npm`/`npx` entries look group-writable to `find -perm /022`
     but are symlinks, whose mode bits Linux ignores; the shared helper skips
     symlinks after checking containment, so it is a no-op there by design."""
     install = INSTALL.read_text(encoding="utf-8")
@@ -162,7 +162,7 @@ def test_dart_opt_out_fails_when_documented_command_fails(tmp_path: Path) -> Non
 def test_dart_verifiers_reject_wrong_versions() -> None:
     ubuntu = (ROOT / "scripts/ubuntu/verify.sh").read_text(encoding="utf-8")
     macos = (ROOT / "scripts/macos/verify.sh").read_text(encoding="utf-8")
-    assert '"$(dart --version 2>&1 | awk \'NR == 1 { print $4 }\')" = "3.13.0"' in ubuntu
+    assert '"$(dart --version 2>&1 | awk \'NR == 1 { print $4 }\')" = "3.13.7"' in ubuntu
     assert "rldyour::require_cmd_min_version dart 3.12 --version" in macos
 
 

@@ -38,7 +38,7 @@ def test_herdr_control_flow_is_explicit_and_sc2015_is_not_suppressed() -> None:
         assert branch in block
 
 
-def _fixture_binary(path: Path, version: str = "0.8.0") -> str:
+def _fixture_binary(path: Path, version: str = "0.9.5") -> str:
     path.write_text(f'#!/bin/sh\necho "herdr {version}"\n', encoding="utf-8")
     path.chmod(0o755)
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -59,9 +59,9 @@ def _run_installer_function(
 ) -> subprocess.CompletedProcess[str]:
     script = r'''
 source "$1"
-HERDR_VERSION=0.8.0
+HERDR_VERSION=0.9.5
 HERDR_MACOS_AARCH64_SHA256="$2"
-HERDR_MACOS_AARCH64_URL=https://github.com/herdrdev/herdr/releases/download/v0.8.0/herdr-macos-aarch64
+HERDR_MACOS_AARCH64_URL=https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-macos-aarch64
 rldyour::download_verified_file() {
   printf 'download\n' >>"$RLDYOUR_TEST_CALLS"
   [ "$1" = "$HERDR_MACOS_AARCH64_URL" ] || return 91
@@ -137,7 +137,7 @@ def test_macos_herdr_is_receipt_bound_and_idempotent(tmp_path: Path) -> None:
 
     first = _run_installer_function(home, binary, sha256)
     assert first.returncode == 0, first.stderr + first.stdout
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     receipt = target.parent / ".receipt"
     launcher = home / ".local/bin/herdr"
     assert target.read_bytes() == binary.read_bytes()
@@ -147,9 +147,9 @@ def test_macos_herdr_is_receipt_bound_and_idempotent(tmp_path: Path) -> None:
     assert receipt.stat().st_mode & 0o777 == 0o600
     assert receipt.read_text(encoding="utf-8") == (
         "# Managed by macos-ubuntu-bootstrap: macos-herdr-runtime-v1\n"
-        "version=0.8.0\n"
+        "version=0.9.5\n"
         f"sha256={sha256}\n"
-        "source=https://github.com/herdrdev/herdr/releases/download/v0.8.0/herdr-macos-aarch64\n"
+        "source=https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-macos-aarch64\n"
     )
 
     inode = target.stat().st_ino
@@ -168,7 +168,7 @@ def test_linux_second_apply_uses_only_gnu_stat_and_does_not_reinstall(tmp_path: 
     calls = tmp_path / "calls"
 
     assert _run_installer_function(home, binary, sha256, calls_file=calls).returncode == 0
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     before = (target.stat().st_ino, target.read_bytes(), target.stat().st_mode & 0o777)
     second = _run_installer_function(home, binary, sha256, calls_file=calls)
 
@@ -189,7 +189,7 @@ def test_macos_bsd_mode_branch_has_second_apply_parity(tmp_path: Path) -> None:
 
     first = _run_installer_function(home, binary, sha256, mode_kernel="Darwin", calls_file=calls)
     assert first.returncode == 0, first.stderr + first.stdout
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     inode = target.stat().st_ino
     second = _run_installer_function(home, binary, sha256, mode_kernel="Darwin", calls_file=calls)
 
@@ -207,7 +207,7 @@ def test_macos_herdr_preserves_divergent_managed_target(tmp_path: Path) -> None:
     binary = tmp_path / "herdr-fixture"
     sha256 = _fixture_binary(binary)
     assert _run_installer_function(home, binary, sha256).returncode == 0
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     target.write_bytes(b"tampered\n")
 
     result = _run_installer_function(home, binary, sha256)
@@ -239,7 +239,7 @@ def test_macos_herdr_wrong_hash_fails_before_publication(tmp_path: Path) -> None
 
     result = _run_installer_function(home, binary, wrong_hash)
     assert result.returncode != 0
-    assert not (home / ".local/share/rldyour/herdr/0.8.0").exists()
+    assert not (home / ".local/share/rldyour/herdr/0.9.5").exists()
     assert "checksum diverged before publication" in result.stderr + result.stdout
 
 
@@ -251,8 +251,8 @@ def test_macos_herdr_wrong_reported_version_fails_before_publication(tmp_path: P
 
     result = _run_installer_function(home, binary, sha256)
     assert result.returncode != 0
-    assert not (home / ".local/share/rldyour/herdr/0.8.0").exists()
-    assert "reports 0.7.5, expected 0.8.0" in result.stderr + result.stdout
+    assert not (home / ".local/share/rldyour/herdr/0.9.5").exists()
+    assert "reports 0.7.5, expected 0.9.5" in result.stderr + result.stdout
 
 
 def test_macos_herdr_unavailable_asset_fails_without_partial_root(tmp_path: Path) -> None:
@@ -263,7 +263,7 @@ def test_macos_herdr_unavailable_asset_fails_without_partial_root(tmp_path: Path
 
     result = _run_installer_function(home, binary, sha256, download_result=22)
     assert result.returncode != 0
-    assert not (home / ".local/share/rldyour/herdr/0.8.0").exists()
+    assert not (home / ".local/share/rldyour/herdr/0.9.5").exists()
     assert "asset is unavailable or failed checksum verification" in result.stderr + result.stdout
 
 
@@ -275,7 +275,7 @@ def test_macos_herdr_unsupported_architecture_fails_before_download(tmp_path: Pa
 
     result = _run_installer_function(home, binary, sha256, machine="x86_64")
     assert result.returncode != 0
-    assert not (home / ".local/share/rldyour/herdr/0.8.0").exists()
+    assert not (home / ".local/share/rldyour/herdr/0.9.5").exists()
     assert "no managed macOS artifact for Darwin/x86_64" in result.stderr + result.stdout
 
 
@@ -287,7 +287,7 @@ def test_macos_herdr_fails_closed_when_system_probe_errors(tmp_path: Path) -> No
     result = _run_installer_function(home, binary, sha256, uname_failure="system")
     assert result.returncode != 0
     assert "could not determine the operating system" in result.stderr + result.stdout
-    assert not (home / ".local/share/rldyour/herdr/0.8.0").exists()
+    assert not (home / ".local/share/rldyour/herdr/0.9.5").exists()
 
 
 def test_macos_herdr_fails_closed_when_architecture_probe_errors(tmp_path: Path) -> None:
@@ -298,12 +298,12 @@ def test_macos_herdr_fails_closed_when_architecture_probe_errors(tmp_path: Path)
     result = _run_installer_function(home, binary, sha256, uname_failure="machine")
     assert result.returncode != 0
     assert "could not determine the architecture" in result.stderr + result.stdout
-    assert not (home / ".local/share/rldyour/herdr/0.8.0").exists()
+    assert not (home / ".local/share/rldyour/herdr/0.9.5").exists()
 
 
 def test_macos_herdr_partial_receipt_fails_closed_without_repair(tmp_path: Path) -> None:
     home = tmp_path / "home"
-    root = home / ".local/share/rldyour/herdr/0.8.0"
+    root = home / ".local/share/rldyour/herdr/0.9.5"
     root.mkdir(parents=True)
     binary = tmp_path / "herdr-fixture"
     sha256 = _fixture_binary(binary)
@@ -312,7 +312,7 @@ def test_macos_herdr_partial_receipt_fails_closed_without_repair(tmp_path: Path)
     target.chmod(0o755)
     receipt = root / ".receipt"
     receipt.write_text(
-        "# Managed by macos-ubuntu-bootstrap: macos-herdr-runtime-v1\nversion=0.8.0\n",
+        "# Managed by macos-ubuntu-bootstrap: macos-herdr-runtime-v1\nversion=0.9.5\n",
         encoding="utf-8",
     )
     receipt.chmod(0o600)
@@ -331,7 +331,7 @@ def test_macos_herdr_divergent_permissions_fail_closed(tmp_path: Path) -> None:
     binary = tmp_path / "herdr-fixture"
     sha256 = _fixture_binary(binary)
     assert _run_installer_function(home, binary, sha256).returncode == 0
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     target.chmod(0o775)
 
     result = _run_installer_function(home, binary, sha256)
@@ -347,7 +347,7 @@ def test_macos_herdr_mode_probe_error_fails_closed_without_reinstall(tmp_path: P
     sha256 = _fixture_binary(binary)
     calls = tmp_path / "calls"
     assert _run_installer_function(home, binary, sha256, calls_file=calls).returncode == 0
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     inode = target.stat().st_ino
 
     result = _run_installer_function(
@@ -366,7 +366,7 @@ def test_macos_herdr_malformed_mode_fails_closed_without_reinstall(tmp_path: Pat
     sha256 = _fixture_binary(binary)
     calls = tmp_path / "calls"
     assert _run_installer_function(home, binary, sha256, calls_file=calls).returncode == 0
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     inode = target.stat().st_ino
 
     result = _run_installer_function(
@@ -384,7 +384,7 @@ def test_macos_herdr_target_shape_branch_preserves_nonexecutable_target(tmp_path
     binary = tmp_path / "herdr-fixture"
     sha256 = _fixture_binary(binary)
     assert _run_installer_function(home, binary, sha256).returncode == 0
-    target = home / ".local/share/rldyour/herdr/0.8.0/herdr"
+    target = home / ".local/share/rldyour/herdr/0.9.5/herdr"
     target.chmod(0o644)
 
     result = _run_installer_function(home, binary, sha256)
@@ -398,7 +398,7 @@ def test_macos_herdr_root_shape_branch_preserves_symlink(tmp_path: Path) -> None
     home.mkdir()
     outside = tmp_path / "outside"
     outside.mkdir()
-    root = home / ".local/share/rldyour/herdr/0.8.0"
+    root = home / ".local/share/rldyour/herdr/0.9.5"
     root.parent.mkdir(parents=True)
     root.symlink_to(outside, target_is_directory=True)
     binary = tmp_path / "herdr-fixture"
@@ -416,7 +416,7 @@ def test_macos_herdr_additional_managed_root_path_fails_closed(tmp_path: Path) -
     binary = tmp_path / "herdr-fixture"
     sha256 = _fixture_binary(binary)
     assert _run_installer_function(home, binary, sha256).returncode == 0
-    root = home / ".local/share/rldyour/herdr/0.8.0"
+    root = home / ".local/share/rldyour/herdr/0.9.5"
     extra = root / "unexpected"
     extra.write_bytes(b"preserve me\n")
 

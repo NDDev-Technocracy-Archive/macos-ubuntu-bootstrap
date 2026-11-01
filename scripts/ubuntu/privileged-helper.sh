@@ -16,7 +16,7 @@ DESKTOP_APT_PACKAGES=(
   ca-certificates curl gpg gnupg git jq python3 python3-venv
   shellcheck shfmt clangd zsh unzip xz-utils wget zip lsb-release yamllint fd-find bat
   fzf zoxide tmux btop duf hexyl gh ripgrep httpie miller software-properties-common
-  wl-clipboard libsecret-tools
+  wl-clipboard libsecret-tools libatomic1
   build-essential
 )
 readonly -a DESKTOP_APT_PACKAGES

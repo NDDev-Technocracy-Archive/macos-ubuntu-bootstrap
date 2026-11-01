@@ -54,7 +54,7 @@ def test_unrestricted_launchers_use_vendor_flags() -> None:
 
 def test_codex_install_uses_receipt_bound_ubuntu_npm_without_publishing_it() -> None:
     common = (ROOT / "scripts/lib/common.sh").read_text()
-    assert '$HOME/.local/share/rldyour/node/v24.19.0/bin/npm' in common
+    assert '$HOME/.local/share/rldyour/node/v26.13.0/bin/npm' in common
     assert '"$npm_bin" install --global' in common
 
 

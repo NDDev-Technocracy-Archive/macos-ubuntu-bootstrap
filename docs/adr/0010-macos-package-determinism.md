@@ -115,7 +115,7 @@ asserts the `ubuntu_*` version fields only on Linux for the same reason.
   floor is a deliberate act, because `ensure_formula` preserves an already
   installed keg and a raised floor will fail verification on a Mac this
   repository chose not to upgrade. The Dart floor is deliberately 3.12 while
-  Ubuntu pins 3.13.0.
+  Ubuntu pins 3.13.7.
 - A package added to `BREW_SOURCE_PACKAGES` or `GUI_CASKS` without a
   determinism class fails a test.
 - Anyone wanting byte-identical Macs must move the package out of Homebrew into

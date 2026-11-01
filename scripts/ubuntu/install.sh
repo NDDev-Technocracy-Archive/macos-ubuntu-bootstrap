@@ -29,35 +29,35 @@ WITH_FAIL2BAN="${RLDYOUR_WITH_FAIL2BAN:-0}"
 # Login shell change is explicit opt-in only; never mutated silently.
 SET_LOGIN_SHELL="${RLDYOUR_SET_LOGIN_SHELL:-0}"
 
-NODE_VERSION="24.19.0"
-NODE_SHA256_X64="14b342e71204f811bde6153be8e04b62aef63c236fef92b55f9c83154b409647"
-NODE_SHA256_ARM64="01443c1e1a29e531ccad5a46fefa6df490d2189c49f7955904aecdbb0fe86fdc"
-UV_VERSION="0.12.5"
-UV_SHA256_X64="68a509da24b06b4223a1c0175fb5eb5bc79342b76cbeff0cfe51ac3f5b17b6b2"
-UV_SHA256_ARM64="9bf43b4d1a07665bf64d4c4e710930b382321a785e0eb10aac07f46471f86a31"
-BUN_VERSION="1.3.14"
-BUN_SHA256_X64="951ee2aee855f08595aeec6225226a298d3fea83a3dcd6465c09cbccdf7e848f"
-BUN_SHA256_X64_BASELINE="a063908ae08b7852ca10939bbdc6ceed3ddabce8fb9402dce83d65d73b36e6c7"
-BUN_SHA256_ARM64="a27ffb63a8310375836e0d6f668ae17fa8d8d18b88c37c821c65331973a19a3b"
+NODE_VERSION="26.13.0"
+NODE_SHA256_X64="d28a96af6c38596f6d9d97c0ee531c13d238d757742387d1928de822d959e997"
+NODE_SHA256_ARM64="406fe3fbde1c054adff8b297c16fdb5af6659db327c1ac8acd46b56ef1af9a92"
+UV_VERSION="0.13.6"
+UV_SHA256_X64="f29c3e94ffabd7e6f3ba521dba169a9b7ec12100bf3257087f0f24f6123f3645"
+UV_SHA256_ARM64="229e194255c7958d86d56e8790d969a6f74736592133f0dfd0076f754c642c1d"
+BUN_VERSION="1.4.4"
+BUN_SHA256_X64="bf8ccbfb2b0b80159e0f9a6d15c55317add8077534dbc6130a3edb52fccb395c"
+BUN_SHA256_X64_BASELINE="e0446eb55995772eb9894bebae9a6be368d985a8b9271ee124486f9946eedd76"
+BUN_SHA256_ARM64="baa6bb36f51d6e58561e02bbea825038a9df454f673d6d776e8bbf86f8c7850e"
 # Go and Rust are desktop language-server hosts, exactly like Node and uv: they
 # back gopls and rust-analyzer over the estate's Go and Rust sources. Installing
 # them does not authorize local project builds; the desktop execution policy
 # stays `source-lsp-only` and the server profile never receives them (project
 # builds belong in Docker under `container-execution-only`).
-GO_VERSION="1.26.6"
-GO_SHA256_AMD64="708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89"
-GO_SHA256_ARM64="d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e"
+GO_VERSION="1.27.3"
+GO_SHA256_AMD64="65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
+GO_SHA256_ARM64="a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49"
 # gopls publishes no prebuilt archive. It is pinned to an exact version and its
 # provenance comes from the Go module checksum database (sum.golang.org), which
 # is a transparency log rather than a hash this repository tracks. GOFLAGS and
 # GONOSUMDB are never relaxed.
-GOPLS_VERSION="v0.23.0"
+GOPLS_VERSION="v0.24.0"
 # One combined archive per architecture carries rustc, cargo, rust-std, clippy,
 # rustfmt and rust-analyzer, so a single tracked hash covers the whole host.
-RUST_VERSION="1.97.1"
-RUST_CHANNEL_DATE="2026-07-16"
-RUST_SHA256_X86_64="88f28fa9af20594179f85d6df67078dfd6fa93e2f6da5e1e9b0ac4997988ca4f"
-RUST_SHA256_AARCH64="9a7a2c336b4787f1b72f6bab7c35d5b7af2fd03cbd39b4fc721466a70d402a7d"
+RUST_VERSION="1.99.1"
+RUST_CHANNEL_DATE="2026-10-15"
+RUST_SHA256_X86_64="231fcae47ee950621374725b5fc3b5441d2fbda2955ac45dd7dc816d8876cfe7"
+RUST_SHA256_AARCH64="a48fb1e853be56ce9b8e2751f5464dbd5e16440cd81e237920f3a5e7e806333e"
 # Dart is the third desktop language-server host (ADR 0005), on the same footing
 # as Go and Rust. One self-contained SDK archive carries `dart language-server`
 # (the analysis server) and `dart mcp-server` (the Dart/Flutter MCP transport the
@@ -65,9 +65,9 @@ RUST_SHA256_AARCH64="9a7a2c336b4787f1b72f6bab7c35d5b7af2fd03cbd39b4fc721466a70d4
 # SDK never mutates its own install tree, which is what keeps it compatible with
 # the runtime-receipt contract; the Flutter SDK is deliberately not installed
 # here because its bin/cache self-populates at runtime and would break that.
-DART_VERSION="3.13.0"
-DART_SHA256_X64="87902573facd8acacac7ee1fe73fa8d0668e06065016068e2ed6c5c99c6b1ee0"
-DART_SHA256_ARM64="20141a0653327939bb20c4b87b231226beba1128d8a9aedbb30cb5af1a2790d4"
+DART_VERSION="3.13.7"
+DART_SHA256_X64="eb99aed266efbcb615c6ae21c12f52cfe935b9f208bccc5fea7f64c21e867229"
+DART_SHA256_ARM64="887cbb763bc4a1d6f3d7c34a6ea08f0f05211807abf98c06d6e4263907ccac1a"
 # Prompt/history/completion pillars — parity with the macOS brew baseline
 # (starship, atuin, carapace). Installed as pinned standalone artifacts, never
 # via apt (stale) or a piped install script. Linux x64 + arm64 tarball SHA-256
@@ -82,11 +82,15 @@ CARAPACE_VERSION="1.7.3"
 CARAPACE_SHA256_X64="35ab52bfe7bdd8296d90c3687660bde80497599badde840ab615d2f421f5f053"
 CARAPACE_SHA256_ARM64="b2456cb09d77004db87de2567d6d7588a61ceb4724522c463e2b1c1f87b4d4b9"
 
+# libatomic1 is a runtime library of the pinned Node.js: the official 25+
+# Linux binaries link libatomic.so.1, which the minimal Ubuntu 24.04 and 26.04
+# images do not carry. Nothing else here pulls it in on a server profile, so
+# without it the staged node binary cannot start.
 APT_SOURCE_PACKAGES=(
   ca-certificates curl gpg gnupg git jq python3 python3-venv
   shellcheck shfmt clangd zsh unzip xz-utils wget zip lsb-release yamllint
   fd-find bat fzf zoxide tmux btop duf hexyl gh ripgrep httpie miller
-  software-properties-common wl-clipboard libsecret-tools
+  software-properties-common wl-clipboard libsecret-tools libatomic1
 )
 
 # Registry-backed language servers + source checks, pinned to exact versions
@@ -150,7 +154,7 @@ PINNED_SOURCE_TOOLS=(
   # Reproduce the estate's CI checks locally: these four are exactly what the
   # gitleaks, OSV, actionlint, and hadolint workflows run.
   "gitleaks;8.30.1;tar0;gitleaks;gitleaks;gitleaks;551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb;e4a487ee7ccd7d3a7f7ec08657610aa3606637dab924210b3aee62570fb4b080;https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz;https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_arm64.tar.gz"
-  "osv-scanner;2.5.0;raw;osv-scanner;osv-scanner;osv-scanner;edcfc41d257db36148f065055655fe3fcfc434b0b423ea67468a84c207524e0c;fe152e1a546af223e6c557cc3111a8bb3e5dc02fcbf7dbe95d26567c0f0041f2;https://github.com/google/osv-scanner/releases/download/v2.5.0/osv-scanner_linux_amd64;https://github.com/google/osv-scanner/releases/download/v2.5.0/osv-scanner_linux_arm64"
+  "osv-scanner;2.7.0;raw;osv-scanner;osv-scanner;osv-scanner;160c6253e2922e9e0a6a9771c5c4c40a4b3c6090b34a3cdd5e80c96cc2e4218b;4061ef4c021ed3c47f203b818f337e351336cc5cd67c0274fc36bd1dfc728dd7;https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_linux_amd64;https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_linux_arm64"
   "actionlint;1.7.12;tar0;actionlint;actionlint;actionlint;8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8;325e971b6ba9bfa504672e29be93c24981eeb1c07576d730e9f7c8805afff0c6;https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz;https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_arm64.tar.gz"
   "hadolint;2.15.1;raw;hadolint;hadolint;hadolint;c7187db94eeeeca956519a6af171adc31453941a1e777961f6e680f697c8c507;f6198ef8090f404dbb771abfee086eb8c48ac177f30da7fd3510aca35b344b5d;https://github.com/hadolint/hadolint/releases/download/v2.15.1/hadolint-linux-x86_64;https://github.com/hadolint/hadolint/releases/download/v2.15.1/hadolint-linux-arm64"
   # Markdown language server. Ubuntu uses markdown-oxide rather than macOS's
@@ -160,24 +164,24 @@ PINNED_SOURCE_TOOLS=(
   # rldyour::ensure_git_delta_config configures delta as the global git pager on
   # both platforms, but Ubuntu never installed it, so the call silently skipped
   # on every Linux desktop.
-  "delta;0.19.2;tar1;delta;delta;delta;8e695c5f586a8c53d6c3b01be0b4a422ed218bfed2a56191caebe373a1c18ab2;0bfce159a5cddd5feb3d6db4a616d883ff51253ce08ac7ec11cb1d208cfaab9e;https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2-x86_64-unknown-linux-gnu.tar.gz;https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2-aarch64-unknown-linux-gnu.tar.gz"
-  "yq;4.53.3;tar0;yq_linux_amd64;yq_linux_arm64;yq;b4077cab0f9ee5ce8381e602d090daa69a0afb7e57eb9a5b20e9cb416d7f6794;42600522e7455282e11c71c9fc62dc8e98b05bcdb830210fe16eb673a871e866;https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_linux_amd64.tar.gz;https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_linux_arm64.tar.gz"
+  "delta;0.20.1;tar1;delta;delta;delta;50f08c879f84c81ceb220e476491a7f492d2c9c671e79918cc44badf961a6240;da7f4338f593572ff426ae153e0870e2fdc72729416eff551b40cdeb67940db8;https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-x86_64-unknown-linux-gnu.tar.gz;https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-aarch64-unknown-linux-gnu.tar.gz"
+  "yq;4.54.1;tar0;yq_linux_amd64;yq_linux_arm64;yq;e68a456f90c577af3fe4960184b3a3cf5c461e0348407c10f107da3a5fec8972;8c27f6e7476fb5acefb9352e3d30f6bc2dc93f1956eb92e8da727173fb7ec6d3;https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_linux_amd64.tar.gz;https://github.com/mikefarah/yq/releases/download/v4.54.1/yq_linux_arm64.tar.gz"
   # The archive also ships an `sg` shim. It is not published: upstream prints a
   # deprecation banner and exits non-zero, and on a host that has util-linux it
   # would shadow the setgid `sg`.
-  "ast-grep;0.45.1;zip;ast-grep;ast-grep;ast-grep;76fb6555be6734fb5057dba8d2fb756430f374bb9e1af694cf1ce00e13238d63;9ee7ec49aada3dc05135d21977af089a33fc3154ada25bab102daca90b5098f2;https://github.com/ast-grep/ast-grep/releases/download/0.45.1/app-x86_64-unknown-linux-gnu.zip;https://github.com/ast-grep/ast-grep/releases/download/0.45.1/app-aarch64-unknown-linux-gnu.zip"
+  "ast-grep;0.51.0;zip;ast-grep;ast-grep;ast-grep;a7eead5552d3a8daad70f5d50d935da44bd0c138e946b5b0a96b1d38169fa639;73af0ebe5958acee012754a5b2826a186580ef83333092408a7a01096fc30b8b;https://github.com/ast-grep/ast-grep/releases/download/0.51.0/app-x86_64-unknown-linux-gnu.zip;https://github.com/ast-grep/ast-grep/releases/download/0.51.0/app-aarch64-unknown-linux-gnu.zip"
   # Command runner used across the estate's repositories. Ubuntu 26.04 ships
-  # 1.45.0 against upstream 1.58.0; a justfile written against a newer feature
+  # 1.45.0 against upstream 1.59.0; a justfile written against a newer feature
   # would fail on the distribution build, so the recipe runner is pinned like
   # every other tool whose exact behaviour a repository depends on. Both digests
   # were confirmed by download and matched against upstream's SHA256SUMS.
-  "just;1.58.0;tar0;just;just;just;4a5cc2f53e6f0f8c59092a6cc38291eb729d46a7dd95d3ae582008881b84931d;748237128c4c40cbdabc65e841d05ceba13cc23a91eaba395495894c1d9764df;https://github.com/casey/just/releases/download/1.58.0/just-1.58.0-x86_64-unknown-linux-musl.tar.gz;https://github.com/casey/just/releases/download/1.58.0/just-1.58.0-aarch64-unknown-linux-musl.tar.gz"
+  "just;1.59.0;tar0;just;just;just;409044617b6f06517c1035e55ca38c8c856ff8b650e41bc2aa1ef82d5903a23e;23871b1702bfd550fb5f901778fd4290ecf2ee034a45a889fbe96d89b188086d;https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-x86_64-unknown-linux-musl.tar.gz;https://github.com/casey/just/releases/download/1.59.0/just-1.59.0-aarch64-unknown-linux-musl.tar.gz"
   # File encryption for estate secrets at rest. Ubuntu ships 1.2.1 against
-  # upstream 1.3.1; for a cryptographic tool the current release is the one to
-  # carry. The archive also contains age-inspect and age-plugin-batchpass, which
-  # are deliberately not published: only the two commands the estate uses are
+  # upstream 1.3.2; for a cryptographic tool the current release is the one to
+  # carry. The archive also contains age-inspect and the age-plugin-* helpers
+  # (batchpass, pq, tag, tagpq), which are deliberately not published: only the two commands the estate uses are
   # linked, so the managed PATH stays exactly what the contract declares.
-  "age;1.3.1;tar1;age,age-keygen;age,age-keygen;age,age-keygen;bdc69c09cbdd6cf8b1f333d372a1f58247b3a33146406333e30c0f26e8f51377;c6878a324421b69e3e20b00ba17c04bc5c6dab0030cfe55bf8f68fa8d9e9093a;https://github.com/FiloSottile/age/releases/download/v1.3.1/age-v1.3.1-linux-amd64.tar.gz;https://github.com/FiloSottile/age/releases/download/v1.3.1/age-v1.3.1-linux-arm64.tar.gz"
+  "age;1.3.2;tar1;age,age-keygen;age,age-keygen;age,age-keygen;cbe24006683f8eb669266162894b9a522a1af52f2665fbc63a4bb032ed26ac10;6b8dc4333c53a5a57c9e5834e3a48f92605d7154014cd07269ff3327db5d37f4;https://github.com/FiloSottile/age/releases/download/v1.3.2/age-v1.3.2-linux-amd64.tar.gz;https://github.com/FiloSottile/age/releases/download/v1.3.2/age-v1.3.2-linux-arm64.tar.gz"
   # Interactive terminal tools that templates/terminal/zshrc binds an alias or
   # abbreviation to. Every one of these guards was dead on Ubuntu: the tool was
   # in the macOS brew set and in no Ubuntu manifest, so `command -v` was false
@@ -186,11 +190,11 @@ PINNED_SOURCE_TOOLS=(
   # 24.04, lazygit and difftastic are in no Ubuntu archive at all, and jaq
   # arrived only in 24.10 -- so each is pinned rather than left to apt.
   "eza;0.23.5;tar0;eza;eza;eza;35c70c5c43c29108075e58b893234c67ef585f0b53a7eaf8e9e7d4eec9f339b4;40b87ae8628aa2ff0f0d2dc24ab52f689631366385c3da630bae745671fd71ec;https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz;https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu.tar.gz"
-  "lazygit;0.64.1;tar0;lazygit;lazygit;lazygit;f8ea237c41f194cd799b48505518bfdaae4edf5a2ad6bd3d898e939785ee4532;8b7ca3b344e60340ad1f89f29b9868ee39bcaba5bb92ee818bbe65476bb8b6e7;https://github.com/jesseduffield/lazygit/releases/download/v0.64.1/lazygit_0.64.1_linux_x86_64.tar.gz;https://github.com/jesseduffield/lazygit/releases/download/v0.64.1/lazygit_0.64.1_linux_arm64.tar.gz"
+  "lazygit;0.66.2;tar0;lazygit;lazygit;lazygit;158efc9ddfa1241fab5fb3526bb442c8dc6c4b1904d73213b9e4e93e03c52034;79a3161eeb642f0473e23db6341f7baabd4a5933e921a9c1167c5d5c765c41a4;https://github.com/jesseduffield/lazygit/releases/download/v0.66.2/lazygit_0.66.2_linux_x86_64.tar.gz;https://github.com/jesseduffield/lazygit/releases/download/v0.66.2/lazygit_0.66.2_linux_arm64.tar.gz"
   # difftastic publishes its binary as `difft`; the row is named for the command
   # it publishes, like every other row here.
-  "difft;0.70.0;tar0;difft;difft;difft;2997d2bbe620534edbd79b0049f00ce84eef3fedb15c7822456d58e38d8b05c9;e729684907d67d1a1727a08f443877e19e40eeb2efebcd95c1b8f7fee4284e8e;https://github.com/Wilfred/difftastic/releases/download/0.70.0/difft-x86_64-unknown-linux-gnu.tar.gz;https://github.com/Wilfred/difftastic/releases/download/0.70.0/difft-aarch64-unknown-linux-gnu.tar.gz"
-  "jaq;3.1.1;raw;jaq;jaq;jaq;5922c7b67d9bd6841d6676d1f954410c6bf04b47203dcb661c4f052dfef7f454;bdda42d5a8c060a2c7916b287a227e7750d5fccbd4c37aacf0ab863010921829;https://github.com/01mf02/jaq/releases/download/v3.1.1/jaq-x86_64-unknown-linux-gnu;https://github.com/01mf02/jaq/releases/download/v3.1.1/jaq-aarch64-unknown-linux-gnu"
+  "difft;0.72.0;tar0;difft;difft;difft;33ea1f003081e9f2422299a434e6040c89085bd9f102b08f3fe30393720d5d4a;0993a82a6708a24adc6c6b8de366924728ed08f537a5b488940082c8edc79353;https://github.com/Wilfred/difftastic/releases/download/0.72.0/difft-0.72.0-x86_64-unknown-linux-gnu.tar.gz;https://github.com/Wilfred/difftastic/releases/download/0.72.0/difft-0.72.0-aarch64-unknown-linux-gnu.tar.gz"
+  "jaq;3.1.2;raw;jaq;jaq;jaq;df94e0ce3658897a5677958417347e1109f91f72b9f75b8fe8f028a70c90b766;1aa1b9c0a3b73f016f6a8d407fa21a89174d01a8e4b9df449eaad49603426734;https://github.com/01mf02/jaq/releases/download/v3.1.2/jaq-x86_64-unknown-linux-gnu;https://github.com/01mf02/jaq/releases/download/v3.1.2/jaq-aarch64-unknown-linux-gnu"
 )
 
 # User-selected CLI tools that are not language hosts, LSPs, or scanners but
@@ -205,7 +209,7 @@ PINNED_SOURCE_TOOLS=(
 # architecture hashes live in config/rldyour-contract.json and parity tests bind
 # this shell row to them; installation never resolves mutable `latest` state.
 USER_TOOLS=(
-  "herdr;0.8.0;raw;herdr;herdr;herdr;b872ea7e40fa2cb17e857ac9b62b1bf26db7b403c622f5d2f3f5b35f6e9acd28;f647ac66468d9efbc642fe534fb284468f0aea60641606fc008dfc0d82a3ca87;https://github.com/herdrdev/herdr/releases/download/v0.8.0/herdr-linux-x86_64;https://github.com/herdrdev/herdr/releases/download/v0.8.0/herdr-linux-aarch64"
+  "herdr;0.9.5;raw;herdr;herdr;herdr;14d9e8bc8b4a9e0118d77c32266f76d461f09b40342eb23752960bd89f59929d;17d7536f2da50859523680ef279dffcac8e4a235f4e46fe8da6c2ec44141897c;https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-linux-x86_64;https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-linux-aarch64"
   # Telegram Desktop official portable build. Only Telegram/Telegram is
   # published. The binary also has an internal updater, disabled separately by
   # install_telegram_update_policy so it cannot mutate this receipt-bound tree.
@@ -213,19 +217,19 @@ USER_TOOLS=(
   # digest and URL are deliberately empty and the row is skipped there. They
   # used to hold the x86_64 values, which meant an arm64 desktop verified the
   # SHA-256 of an executable it could not run.
-  "telegram;7.0.9;tarx;Telegram/Telegram;Telegram/Telegram;telegram-desktop;d3c05df0259ab116d11d8c1cdc1403019d2a3be303ad3b46d16a84e19df6615f;;https://github.com/telegramdesktop/tdesktop/releases/download/v7.0.9/tsetup.7.0.9.tar.xz;"
+  "telegram;7.3.3;tarx;Telegram/Telegram;Telegram/Telegram;telegram-desktop;7bcd524ea17f3eefda95b2ffdb3d5b355e7f727d44045a6ff2316cd077355df9;;https://github.com/telegramdesktop/tdesktop/releases/download/v7.3.3/td-setup-linux-x64-7.3.3.tar.xz;"
 )
 
-# Telegram v7.0.9 commit a1e89e1f installs these four files from
+# Telegram v7.3.3 commit 5c674f1f installs these four files from
 # InstallLauncher(). Our externalupdater.d policy intentionally makes that
 # function return before it writes anything, so bootstrap must publish the
 # exact upstream assets itself. Rows are source_url;sha256;path under
 # ~/.local/share, which is the location the contract declares.
 TELEGRAM_DESKTOP_ASSETS=(
-  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/art/logo_256.png;3fb1400c7dc9bbc3b5cb3ffedcbf4a9b09c53e28b57a7ff33a8a6b9048864090;icons/hicolor/256x256/apps/org.telegram.desktop.png"
-  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/icons/tray_monochrome.svg;a93380f2c7e6aae4d5fde8940020bd966e97ad8c4880f45c016edfef3f5193e1;icons/hicolor/symbolic/apps/org.telegram.desktop-symbolic.svg"
-  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/icons/tray_monochrome_attention.svg;2b67ee19839dbbb9f57f2d7433fd6dc1059634d6d081c5e4c422c14f53fcfcc7;icons/hicolor/symbolic/apps/org.telegram.desktop-attention-symbolic.svg"
-  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/icons/tray_monochrome_mute.svg;efa1439bd60b58db7b755f5d21be854ea686a0e1e2f1aa6e43bf35c083ee72fc;icons/hicolor/symbolic/apps/org.telegram.desktop-mute-symbolic.svg"
+  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/art/logo_256.png;3fb1400c7dc9bbc3b5cb3ffedcbf4a9b09c53e28b57a7ff33a8a6b9048864090;icons/hicolor/256x256/apps/org.telegram.desktop.png"
+  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/icons/tray_monochrome.svg;a93380f2c7e6aae4d5fde8940020bd966e97ad8c4880f45c016edfef3f5193e1;icons/hicolor/symbolic/apps/org.telegram.desktop-symbolic.svg"
+  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/icons/tray_monochrome_attention.svg;2b67ee19839dbbb9f57f2d7433fd6dc1059634d6d081c5e4c422c14f53fcfcc7;icons/hicolor/symbolic/apps/org.telegram.desktop-attention-symbolic.svg"
+  "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/icons/tray_monochrome_mute.svg;efa1439bd60b58db7b755f5d21be854ea686a0e1e2f1aa6e43bf35c083ee72fc;icons/hicolor/symbolic/apps/org.telegram.desktop-mute-symbolic.svg"
 )
 
 
@@ -448,7 +452,7 @@ rldyour::ubuntu::install_telegram_update_policy() {
 
 # Install the application and symbolic tray icons that Telegram normally
 # publishes from InstallLauncher(). The updater-disabled build deliberately
-# skips that function, so each upstream asset is pinned to the v7.0.9 source
+# skips that function, so each upstream asset is pinned to the v7.3.3 source
 # commit and verified before atomic publication. Divergent local icons are
 # preserved and fail closed instead of being overwritten.
 rldyour::ubuntu::install_telegram_desktop_assets() {
@@ -476,7 +480,7 @@ rldyour::ubuntu::install_telegram_desktop_assets() {
       if [ "$RLDYOUR_DRY_RUN" -eq 0 ]; then
         chmod 0644 "$target" || return 1
       fi
-      rldyour::log "ok" "$(basename "$target") already matches Telegram v7.0.9"
+      rldyour::log "ok" "$(basename "$target") already matches Telegram v7.3.3"
       continue
     fi
 
@@ -1008,7 +1012,7 @@ ensure_node() {
   if [ -e "$destination" ] || [ -L "$destination" ]; then
     if ! rldyour::ubuntu::validate_runtime_receipt \
       "$destination" node "$NODE_VERSION" "$sha" \
-      bin/node bin/npm bin/npx bin/corepack ||
+      bin/node bin/npm bin/npx ||
       [ "$("$destination/bin/node" --version 2>/dev/null)" != "v${NODE_VERSION}" ]; then
       rldyour::log "error" "unmanaged or tampered Node destination exists; preserved: $destination"
       return 1
@@ -1024,15 +1028,17 @@ ensure_node() {
     }
     rldyour::ubuntu::write_runtime_receipt \
       "$stage" node "$NODE_VERSION" "$sha" \
-      bin/node bin/npm bin/npx bin/corepack || return 1
+      bin/node bin/npm bin/npx || return 1
     mv "$stage" "$destination"
     stage=""
     rm -f "$archive"
     trap - RETURN
   fi
-  # Node is a pinned runtime only. npm/npx/corepack ship inside the verified
-  # tarball (their integrity is recorded in the receipt) but are deliberately
-  # NOT published to the managed PATH: uv and bun are the only package managers.
+  # Node is a pinned runtime only. npm/npx ship inside the verified tarball
+  # (their integrity is recorded in the receipt) but are deliberately NOT
+  # published to the managed PATH: uv and bun are the only package managers.
+  # Node 25 removed corepack from the distribution, so it is no longer in
+  # the archive or the receipt.
   rldyour::ubuntu::preflight_managed_link node "$HOME/.local/share/rldyour/node"
   ensure_node_link node "$destination/bin/node"
   rldyour::ensure_path

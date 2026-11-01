@@ -31,6 +31,47 @@ remains available in immutable Git tags.
   environments are exempt by name, and a test fails if an exemption stops
   installing anything.
 
+### Changed
+
+- Refreshed the twenty pins `source-drift` reported behind on 2026-11-01. Each
+  new artifact was downloaded, inspected and hashed here, and every digest also
+  matches the publisher's own record: Node.js 24.19.0 -> 26.13.0 (the current
+  LTS; `SHASUMS256.txt`, signed by a Node.js release key), uv 0.12.5 -> 0.13.6
+  (per-asset `.sha256`), Bun 1.3.14 -> 1.4.4 (`SHASUMS256.txt`, signed by
+  Robobun), Go 1.26.6 -> 1.27.3 (go.dev/dl JSON), gopls v0.23.0 -> v0.24.0
+  (module checksum database; it requires Go 1.27), Rust 1.97.1 -> 1.99.1
+  (channel 2026-10-15, signed by the Rust release key), Dart SDK 3.13.0 ->
+  3.13.7 (dart-archive `.sha256sum`), Homebrew.pkg 6.0.17 -> 7.0.11 (signed by
+  the pinned Developer ID Installer team), Herdr 0.8.0 -> 0.9.5, Telegram
+  7.0.9 -> 7.3.3, Codex 0.147.0 -> 0.166.0 (npm `integrity`), osv-scanner
+  2.5.0 -> 2.7.0, delta 0.19.2 -> 0.20.1, yq 4.53.3 -> 4.54.1, just 1.58.0 ->
+  1.59.0, age 1.3.1 -> 1.3.2, ast-grep 0.45.1 -> 0.51.0, lazygit 0.64.1 ->
+  0.66.2, difftastic 0.70.0 -> 0.72.0 and jaq 3.1.1 -> 3.1.2 (each matched
+  against its release checksum file where one exists, and against the digest
+  GitHub records for the release asset).
+
+  Three upstream changes needed more than a new value:
+
+  - **Node.js 25 removed corepack from the distribution.** The runtime receipt
+    required `bin/corepack` to exist, so a 26.x install would have failed its
+    own receipt. The installer and the verifier now record `node`, `npm` and
+    `npx` only; corepack was never published to the managed PATH. The 25+
+    Linux binaries also link `libatomic.so.1`, which the minimal Ubuntu 24.04
+    image lacks and no server-profile package pulled in, so `libatomic1` joins
+    the apt baseline (contract, installer and privileged-helper allowlist).
+  - **Telegram renamed its Linux asset** from `tsetup.<version>.tar.xz` to
+    `td-setup-linux-x64-<version>.tar.xz`; the archive layout is unchanged. The
+    four desktop assets move to the v7.3.3 source commit `5c674f1f`. They and
+    `InstallLauncher()` are byte-identical to v7.0.9, so installed icons stay
+    valid. Upstream's own desktop entry now also lists `x-scheme-handler/ton`;
+    the managed entry does not claim that scheme, since a pin refresh is not
+    the place to change which links Telegram owns.
+  - **difftastic now versions its asset names**, so the URLs changed shape.
+
+  Homebrew.pkg 7 declares macOS 15.0 as its minimum, so a Mac on macOS 14
+  can no longer bootstrap Homebrew from the pinned package. The macOS
+  evidence lane already runs on `macos-15`.
+
 ### Removed
 
 - The `safety` contract block and `verified_on`, and with them the exemption

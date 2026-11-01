@@ -109,7 +109,7 @@ def _run_retire_integrations(
 
 
 def _managed_telegram(home: Path) -> tuple[Path, Path]:
-    real = home / ".local/share/rldyour/telegram/7.0.9/Telegram/Telegram"
+    real = home / ".local/share/rldyour/telegram/7.3.3/Telegram/Telegram"
     real.parent.mkdir(parents=True)
     real.write_text("#!/usr/bin/env sh\nexit 0\n", encoding="utf-8")
     real.chmod(0o755)
@@ -212,7 +212,7 @@ def test_telegram_favorite_migrates_before_legacy_launchers_are_retired() -> Non
     assert configure < retire_generated
 
 
-def test_telegram_desktop_assets_are_pinned_to_the_v709_source_commit() -> None:
+def test_telegram_desktop_assets_are_pinned_to_the_v733_source_commit() -> None:
     contract = json.loads(
         (ROOT / "config/rldyour-contract.json").read_text(encoding="utf-8")
     )
@@ -220,7 +220,7 @@ def test_telegram_desktop_assets_are_pinned_to_the_v709_source_commit() -> None:
     installer = INSTALL.read_text(encoding="utf-8")
 
     assert desktop["upstream_source_commit"] == (
-        "a1e89e1f64f08cb058caf1c61ff43f319f98a6ec"
+        "5c674f1f6a0f6ace55b67f8bc295138680fe588b"
     )
     assert len(desktop["icon_assets"]) == 4
     for asset in desktop["icon_assets"]:
@@ -366,7 +366,7 @@ def test_divergent_generated_telegram_integration_is_preserved(
 
 
 def _managed_launcher(home: Path) -> None:
-    binary = home / ".local/share/rldyour/telegram/7.0.9/Telegram/Telegram"
+    binary = home / ".local/share/rldyour/telegram/7.3.3/Telegram/Telegram"
     binary.parent.mkdir(parents=True, exist_ok=True)
     binary.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
     binary.chmod(0o755)
