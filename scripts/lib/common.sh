@@ -334,7 +334,7 @@ rldyour::install_managed_file() {
 # Official vendor installers are mutable URLs. The bootstrap downloads them to
 # a temporary file and verifies the reviewed script digest before execution.
 RLDYOUR_CLAUDE_INSTALLER_URL="https://claude.ai/install.sh"
-RLDYOUR_CLAUDE_INSTALLER_SHA256="cde4f1702d3b1695f92b73d26888364e17bca476e17f0fd676484c951d36c125"
+RLDYOUR_CLAUDE_INSTALLER_SHA256="3a68d3406cf674e17bed1733a4dcf37805e2e47d87417700007d7e1aa766a944"
 RLDYOUR_GROK_INSTALLER_URL="https://x.ai/cli/install.sh"
 RLDYOUR_GROK_INSTALLER_SHA256="43d0943123edade1383a476a4f778674877acee7c1f98a00f094c4a0f7349321"
 RLDYOUR_CODEX_VERSION="0.147.0"
