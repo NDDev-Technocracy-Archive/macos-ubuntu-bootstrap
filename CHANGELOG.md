@@ -55,7 +55,10 @@ remains available in immutable Git tags.
   - **Node.js 25 removed corepack from the distribution.** The runtime receipt
     required `bin/corepack` to exist, so a 26.x install would have failed its
     own receipt. The installer and the verifier now record `node`, `npm` and
-    `npx` only; corepack was never published to the managed PATH.
+    `npx` only; corepack was never published to the managed PATH. The 25+
+    Linux binaries also link `libatomic.so.1`, which the minimal Ubuntu 24.04
+    image lacks and no server-profile package pulled in, so `libatomic1` joins
+    the apt baseline (contract, installer and privileged-helper allowlist).
   - **Telegram renamed its Linux asset** from `tsetup.<version>.tar.xz` to
     `td-setup-linux-x64-<version>.tar.xz`; the archive layout is unchanged. The
     four desktop assets move to the v7.3.3 source commit `5c674f1f`. They and
