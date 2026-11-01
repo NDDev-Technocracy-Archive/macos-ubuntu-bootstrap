@@ -1,38 +1,31 @@
-name: Docs quality
+name: docs-quality
 
 on:
+  pull_request:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: read
 
 concurrency:
-  group: docs-quality-${{ github.workflow }}-${{ github.run_id }}
-  cancel-in-progress: false
+  group: docs-quality-${{ github.event.pull_request.number || github.ref }}
+  # Obsolete pull-request heads are cancelled; a running main validation always completes.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   docs-quality:
-    name: Docs quality
-    permissions:
-      contents: read
-    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/docs-quality.yml@36bea6e4ac643872e9a504b2fe19aad9487e398a # 0.2.0-dev
-    with:
-      # Public repo: pull_request runs untrusted fork code. Pin the hosted runner
-      # explicitly. The estate runner platform forbids public/fork code on a
-      # trusted runner group (modules/github-actions, docs/threat-model.md),
-      # and this repository is public. The reusable's default belongs to the
-      # pinned commit, not here. A wrong value does not fail loudly either:
-      # a job asking for a label no runner advertises queues indefinitely.
-      runner: ubuntu-latest
-      # Broken-link detection (lychee). Exclude openai.com: its marketing pages
-      # return 403 to link-checkers (bot-blocked) — a false positive, valid in a
-      # browser.
-      lychee_args: '--no-progress --max-concurrency 8 --exclude "openai\.com" "**/*.md"'
-      # Spell-check and markdown-lint are disabled: `typos` scans the whole repo
-      # and flags project identifiers as misspellings (the NDDev brand, hex
-      # SHA-256 fragments), and default markdownlint rules (e.g. line length) are
-      # noise on technical docs. Keep the high-signal broken-link gate.
-      typos: false
-      markdownlint: false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/tools@9cc44a5043ddd266f3e73fefacc52f5cf5a7d70f # nddev-cicd-v0.6.18
+      with:
+        capability: quality
+    - name: Links and spelling
+      shell: bash
+      run: |
+        lychee --no-progress --max-concurrency 8 --exclude "openai\.com" "**/*.md"

@@ -1,44 +1,31 @@
-name: OSV scan
+name: osv-scan
 
 on:
+  pull_request:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-  schedule:
-    - cron: "30 6 * * 3"
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: read
 
 concurrency:
-  group: osv-scan-${{ github.workflow }}-${{ github.run_id }}
-  cancel-in-progress: false
+  group: osv-scan-${{ github.event.pull_request.number || github.ref }}
+  # Obsolete pull-request heads are cancelled; a running main validation always completes.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   osv-scan:
-    name: OSV vulnerability scan
-    permissions:
-      contents: read
-    uses: NDDev-OpenNetwork/ci-workflows/.github/workflows/osv-scan.yml@36bea6e4ac643872e9a504b2fe19aad9487e398a # 0.2.0-dev
-    with:
-      # Public repo: pull_request runs untrusted fork code. Pin the hosted runner
-      # explicitly. The estate runner platform forbids public/fork code on a
-      # trusted runner group (modules/github-actions, docs/threat-model.md),
-      # and this repository is public. The reusable's default belongs to the
-      # pinned commit, not here. A wrong value does not fail loudly either:
-      # a job asking for a label no runner advertises queues indefinitely.
-      runner: ubuntu-latest
-      # The version and digest the contract pins for a device, passed explicitly
-      # so CI analyses this repository with the scanner its own users get.
-      # Without them the caller inherits the provider's default, which was
-      # 2.4.0 at this pin -- a different scanning pipeline, so CI and a
-      # developer's machine could disagree about the same repository.
-      #
-      # `scripts/ci/check_ci_tool_parity.py` fails if these drift from
-      # `config/rldyour-contract.json`. The provider downloads
-      # `osv-scanner_linux_amd64`, which is the asset the contract's x64 digest
-      # covers, so the value transfers exactly rather than by resemblance.
-      osv_scanner_version: '2.5.0'
-      osv_scanner_sha256: 'edcfc41d257db36148f065055655fe3fcfc434b0b423ea67468a84c207524e0c'
-      scan_args: '--recursive .'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/tools@9cc44a5043ddd266f3e73fefacc52f5cf5a7d70f # nddev-cicd-v0.6.18
+      with:
+        capability: security
+    - name: OSV-Scanner
+      shell: bash
+      run: |
+        osv-scanner scan source --recursive .

@@ -68,6 +68,7 @@ jobs:
   scope:
     name: Decide what evidence this change needs
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     permissions:
       contents: read
     outputs:
@@ -123,6 +124,7 @@ jobs:
     needs: scope
     if: needs.scope.outputs.required == 'true' && needs.scope.outputs.fork == 'false'
     runs-on: macos-15
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -154,6 +156,7 @@ jobs:
     needs: scope
     if: needs.scope.outputs.required == 'true' && needs.scope.outputs.fork == 'false'
     runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -191,6 +194,7 @@ jobs:
     needs: scope
     if: needs.scope.outputs.required == 'true' && needs.scope.outputs.fork == 'false'
     runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       # Raised from 2. Each matrix job takes its own hosted runner, so the cap
@@ -243,6 +247,7 @@ jobs:
     needs: scope
     if: needs.scope.outputs.required == 'true' && needs.scope.outputs.fork == 'false'
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -321,6 +326,7 @@ jobs:
   evidence-gate:
     if: always()
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     needs: [scope, macos-native, ubuntu-native, ubuntu-systemd-sandbox, ubuntu-safeguards, privileged-container]
     permissions:
       actions: read
@@ -335,7 +341,7 @@ jobs:
           {
             echo "## Evidence: not required"
             echo
-            echo "${{ needs.scope.outputs.reason }}."
+            echo "${NEEDS_SCOPE_OUTPUTS_REASON}."
             echo
             echo "No platform evidence was produced for this commit, and none is"
             echo "needed to merge it. A release candidate still cannot publish"
@@ -343,7 +349,9 @@ jobs:
             echo "request head whose tree matches the candidate, and a head that"
             echo "produced none fails there."
           } >>"$GITHUB_STEP_SUMMARY"
-          echo "evidence not required: ${{ needs.scope.outputs.reason }}"
+          echo "evidence not required: ${NEEDS_SCOPE_OUTPUTS_REASON}"
+        env:
+          NEEDS_SCOPE_OUTPUTS_REASON: ${{ needs.scope.outputs.reason }}
 
       # A fork cannot run the native lanes: they apply the bootstrap with sudo
       # from the contributor's own head. That is a deliberate boundary, not a

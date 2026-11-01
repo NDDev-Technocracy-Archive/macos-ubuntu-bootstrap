@@ -52,10 +52,18 @@ COMMON = ROOT / "scripts/lib/common.sh"
 # `arch` names which of the contract's per-architecture digests the workflow
 # actually downloads. Every one of these lanes runs on a Linux X64 runner --
 # the providers say so explicitly -- so they all take `x64`.
-CI_TOOL_INPUTS: tuple[tuple[str, str, str, str, str], ...] = (
-    # (contract tool, workflow file, version input, digest input, arch)
-    ("osv-scanner", "osv-scan.yml", "osv_scanner_version", "osv_scanner_sha256", "x64"),
-    ("actionlint", "ci.yml", "actionlint_version", "actionlint_sha256", "x64"),
+CI_TOOL_INPUTS: tuple[tuple[str, str, str, str, str], ...] = ()
+
+# Lanes that acquire a tool through the STD-0004 library's `tools` action. The
+# library downloads each tool at an exact version and verifies its SHA-256
+# before use, so the binding to check here is the full-SHA pin of the action;
+# a tag or branch reference would let the tool change without a diff.
+LIBRARY_TOOL_LANES: tuple[tuple[str, str], ...] = (
+    ("osv-scanner", "osv-scan.yml"),
+    ("actionlint", "ci.yml"),
+)
+LIBRARY_TOOLS = re.compile(
+    r"uses:\s*NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/\.github/actions/tools@[0-9a-f]{40}\b"
 )
 
 # Workflows that read a tool's identity out of the contract at run time instead
@@ -122,6 +130,14 @@ def workflow_input(text: str, name: str) -> str | None:
 
 def check_tool_parity(contract: dict) -> list[str]:
     findings: list[str] = []
+    for tool, filename in LIBRARY_TOOL_LANES:
+        path = WORKFLOWS / filename
+        if not path.is_file():
+            findings.append(f"{filename}: named by LIBRARY_TOOL_LANES but absent")
+        elif not LIBRARY_TOOLS.search(path.read_text(encoding="utf-8")):
+            findings.append(
+                f"{filename}: acquires {tool} without the full-SHA pinned STD-0004 tools action"
+            )
     for tool, filename, version_input, digest_input, arch in CI_TOOL_INPUTS:
         path = WORKFLOWS / filename
         if not path.is_file():
@@ -345,11 +361,13 @@ def check(contract: dict | None = None) -> int:
     if findings:
         raise ParityError("\n".join(f"  {item}" for item in findings))
 
-    sites = len(CI_TOOL_INPUTS) + len({name for name, _ in CONTRACT_DERIVED})
+    sites = len(CI_TOOL_INPUTS) + len(LIBRARY_TOOL_LANES) + len({name for name, _ in CONTRACT_DERIVED})
     print(f"ci-tool-parity-ok: {sites} CI call sites bound to the contract")
     for tool, filename, _version, _digest, arch in CI_TOOL_INPUTS:
         spec = contract_tool(contract, tool)
         print(f"  {filename}: {tool} {spec['version']} ({arch}), stated and compared")
+    for tool, filename in LIBRARY_TOOL_LANES:
+        print(f"  {filename}: {tool} from the SHA-pinned STD-0004 tools action")
     for filename in sorted({name for name, _ in CONTRACT_DERIVED}):
         print(f"  {filename}: reads its tool identities from the contract at run time")
     return 0

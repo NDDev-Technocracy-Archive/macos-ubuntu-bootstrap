@@ -52,19 +52,19 @@
         "do_not_enforce_on_create": false,
         "required_status_checks": [
           {
+            "context": "Dependency pin checks"
+          },
+          {
             "context": "bootstrap-gate"
           },
           {
-            "context": "bootstrap-pytests / python (uv, 3.14)"
+            "context": "bootstrap-pytests"
           },
           {
-            "context": "Gitleaks secret scan / Gitleaks secret scan"
+            "context": "dependency-review"
           },
           {
-            "context": "dependency-review / Dependency review"
-          },
-          {
-            "context": "Dependency pin checks"
+            "context": "workflow-lint"
           }
         ]
       }
