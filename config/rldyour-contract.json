@@ -94,10 +94,10 @@
       "grok-build"
     ],
     "codex": {
-      "version": "0.147.0",
+      "version": "0.166.0",
       "install_method": "verified-npm-tarball",
       "launcher": "cx",
-      "sha512": "1102c45de7001b6a6dc48ed4a41328d9347f81ae79f7afdcfceb1817fd0ba140e1e4900d67b2281aa97304459bb84550efa25e3c86ed4d6fe2842929d5aed9df"
+      "sha512": "d92ce5a75975733e535f571ca57e19a24dc366ba2df717997b4926fbaff5bfc266ab1003c3227128125a878741ca6930b52db98ffbba762a49bac4ce23ded9f1"
     },
     "claude-code": {
       "channel": "stable",
@@ -142,34 +142,34 @@
     }
   },
   "runtime_support": {
-    "ubuntu_node_lts": "24.19.0",
+    "ubuntu_node_lts": "26.13.0",
     "ubuntu_node_sha256": {
-      "x64": "14b342e71204f811bde6153be8e04b62aef63c236fef92b55f9c83154b409647",
-      "arm64": "01443c1e1a29e531ccad5a46fefa6df490d2189c49f7955904aecdbb0fe86fdc"
+      "x64": "d28a96af6c38596f6d9d97c0ee531c13d238d757742387d1928de822d959e997",
+      "arm64": "406fe3fbde1c054adff8b297c16fdb5af6659db327c1ac8acd46b56ef1af9a92"
     },
-    "ubuntu_uv": "0.12.5",
+    "ubuntu_uv": "0.13.6",
     "ubuntu_uv_sha256": {
-      "x64": "68a509da24b06b4223a1c0175fb5eb5bc79342b76cbeff0cfe51ac3f5b17b6b2",
-      "arm64": "9bf43b4d1a07665bf64d4c4e710930b382321a785e0eb10aac07f46471f86a31"
+      "x64": "f29c3e94ffabd7e6f3ba521dba169a9b7ec12100bf3257087f0f24f6123f3645",
+      "arm64": "229e194255c7958d86d56e8790d969a6f74736592133f0dfd0076f754c642c1d"
     },
-    "ubuntu_bun": "1.3.14",
+    "ubuntu_bun": "1.4.4",
     "ubuntu_bun_sha256": {
-      "x64": "951ee2aee855f08595aeec6225226a298d3fea83a3dcd6465c09cbccdf7e848f",
-      "x64-baseline": "a063908ae08b7852ca10939bbdc6ceed3ddabce8fb9402dce83d65d73b36e6c7",
-      "arm64": "a27ffb63a8310375836e0d6f668ae17fa8d8d18b88c37c821c65331973a19a3b"
+      "x64": "bf8ccbfb2b0b80159e0f9a6d15c55317add8077534dbc6130a3edb52fccb395c",
+      "x64-baseline": "e0446eb55995772eb9894bebae9a6be368d985a8b9271ee124486f9946eedd76",
+      "arm64": "baa6bb36f51d6e58561e02bbea825038a9df454f673d6d776e8bbf86f8c7850e"
     },
-    "ubuntu_go": "1.26.6",
+    "ubuntu_go": "1.27.3",
     "ubuntu_go_sha256": {
-      "amd64": "708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89",
-      "arm64": "d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e"
+      "amd64": "65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40",
+      "arm64": "a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49"
     },
-    "ubuntu_gopls": "v0.23.0",
+    "ubuntu_gopls": "v0.24.0",
     "ubuntu_gopls_provenance": "go-module-checksum-database",
-    "ubuntu_rust": "1.97.1",
-    "ubuntu_rust_channel_date": "2026-07-16",
+    "ubuntu_rust": "1.99.1",
+    "ubuntu_rust_channel_date": "2026-10-15",
     "ubuntu_rust_sha256": {
-      "x86_64": "88f28fa9af20594179f85d6df67078dfd6fa93e2f6da5e1e9b0ac4997988ca4f",
-      "aarch64": "9a7a2c336b4787f1b72f6bab7c35d5b7af2fd03cbd39b4fc721466a70d402a7d"
+      "x86_64": "231fcae47ee950621374725b5fc3b5441d2fbda2955ac45dd7dc816d8876cfe7",
+      "aarch64": "a48fb1e853be56ce9b8e2751f5464dbd5e16440cd81e237920f3a5e7e806333e"
     },
     "ubuntu_rust_components": [
       "rustc",
@@ -179,10 +179,10 @@
       "rustfmt-preview",
       "rust-analyzer-preview"
     ],
-    "ubuntu_dart": "3.13.0",
+    "ubuntu_dart": "3.13.7",
     "ubuntu_dart_sha256": {
-      "x64": "87902573facd8acacac7ee1fe73fa8d0668e06065016068e2ed6c5c99c6b1ee0",
-      "arm64": "20141a0653327939bb20c4b87b231226beba1128d8a9aedbb30cb5af1a2790d4"
+      "x64": "eb99aed266efbcb615c6ae21c12f52cfe935b9f208bccc5fea7f64c21e867229",
+      "arm64": "887cbb763bc4a1d6f3d7c34a6ea08f0f05211807abf98c06d6e4263907ccac1a"
     },
     "ubuntu_dart_provides": [
       "dart",
@@ -200,10 +200,10 @@
         }
       },
       "osv-scanner": {
-        "version": "2.5.0",
+        "version": "2.7.0",
         "sha256": {
-          "x64": "edcfc41d257db36148f065055655fe3fcfc434b0b423ea67468a84c207524e0c",
-          "arm64": "fe152e1a546af223e6c557cc3111a8bb3e5dc02fcbf7dbe95d26567c0f0041f2"
+          "x64": "160c6253e2922e9e0a6a9771c5c4c40a4b3c6090b34a3cdd5e80c96cc2e4218b",
+          "arm64": "4061ef4c021ed3c47f203b818f337e351336cc5cd67c0274fc36bd1dfc728dd7"
         }
       },
       "actionlint": {
@@ -228,38 +228,38 @@
         }
       },
       "delta": {
-        "version": "0.19.2",
+        "version": "0.20.1",
         "sha256": {
-          "x64": "8e695c5f586a8c53d6c3b01be0b4a422ed218bfed2a56191caebe373a1c18ab2",
-          "arm64": "0bfce159a5cddd5feb3d6db4a616d883ff51253ce08ac7ec11cb1d208cfaab9e"
+          "x64": "50f08c879f84c81ceb220e476491a7f492d2c9c671e79918cc44badf961a6240",
+          "arm64": "da7f4338f593572ff426ae153e0870e2fdc72729416eff551b40cdeb67940db8"
         }
       },
       "yq": {
-        "version": "4.53.3",
+        "version": "4.54.1",
         "sha256": {
-          "x64": "b4077cab0f9ee5ce8381e602d090daa69a0afb7e57eb9a5b20e9cb416d7f6794",
-          "arm64": "42600522e7455282e11c71c9fc62dc8e98b05bcdb830210fe16eb673a871e866"
+          "x64": "e68a456f90c577af3fe4960184b3a3cf5c461e0348407c10f107da3a5fec8972",
+          "arm64": "8c27f6e7476fb5acefb9352e3d30f6bc2dc93f1956eb92e8da727173fb7ec6d3"
         }
       },
       "just": {
-        "version": "1.58.0",
+        "version": "1.59.0",
         "sha256": {
-          "x64": "4a5cc2f53e6f0f8c59092a6cc38291eb729d46a7dd95d3ae582008881b84931d",
-          "arm64": "748237128c4c40cbdabc65e841d05ceba13cc23a91eaba395495894c1d9764df"
+          "x64": "409044617b6f06517c1035e55ca38c8c856ff8b650e41bc2aa1ef82d5903a23e",
+          "arm64": "23871b1702bfd550fb5f901778fd4290ecf2ee034a45a889fbe96d89b188086d"
         }
       },
       "age": {
-        "version": "1.3.1",
+        "version": "1.3.2",
         "sha256": {
-          "x64": "bdc69c09cbdd6cf8b1f333d372a1f58247b3a33146406333e30c0f26e8f51377",
-          "arm64": "c6878a324421b69e3e20b00ba17c04bc5c6dab0030cfe55bf8f68fa8d9e9093a"
+          "x64": "cbe24006683f8eb669266162894b9a522a1af52f2665fbc63a4bb032ed26ac10",
+          "arm64": "6b8dc4333c53a5a57c9e5834e3a48f92605d7154014cd07269ff3327db5d37f4"
         }
       },
       "ast-grep": {
-        "version": "0.45.1",
+        "version": "0.51.0",
         "sha256": {
-          "x64": "76fb6555be6734fb5057dba8d2fb756430f374bb9e1af694cf1ce00e13238d63",
-          "arm64": "9ee7ec49aada3dc05135d21977af089a33fc3154ada25bab102daca90b5098f2"
+          "x64": "a7eead5552d3a8daad70f5d50d935da44bd0c138e946b5b0a96b1d38169fa639",
+          "arm64": "73af0ebe5958acee012754a5b2826a186580ef83333092408a7a01096fc30b8b"
         }
       },
       "eza": {
@@ -270,24 +270,24 @@
         }
       },
       "lazygit": {
-        "version": "0.64.1",
+        "version": "0.66.2",
         "sha256": {
-          "x64": "f8ea237c41f194cd799b48505518bfdaae4edf5a2ad6bd3d898e939785ee4532",
-          "arm64": "8b7ca3b344e60340ad1f89f29b9868ee39bcaba5bb92ee818bbe65476bb8b6e7"
+          "x64": "158efc9ddfa1241fab5fb3526bb442c8dc6c4b1904d73213b9e4e93e03c52034",
+          "arm64": "79a3161eeb642f0473e23db6341f7baabd4a5933e921a9c1167c5d5c765c41a4"
         }
       },
       "difft": {
-        "version": "0.70.0",
+        "version": "0.72.0",
         "sha256": {
-          "x64": "2997d2bbe620534edbd79b0049f00ce84eef3fedb15c7822456d58e38d8b05c9",
-          "arm64": "e729684907d67d1a1727a08f443877e19e40eeb2efebcd95c1b8f7fee4284e8e"
+          "x64": "33ea1f003081e9f2422299a434e6040c89085bd9f102b08f3fe30393720d5d4a",
+          "arm64": "0993a82a6708a24adc6c6b8de366924728ed08f537a5b488940082c8edc79353"
         }
       },
       "jaq": {
-        "version": "3.1.1",
+        "version": "3.1.2",
         "sha256": {
-          "x64": "5922c7b67d9bd6841d6676d1f954410c6bf04b47203dcb661c4f052dfef7f454",
-          "arm64": "bdda42d5a8c060a2c7916b287a227e7750d5fccbd4c37aacf0ab863010921829"
+          "x64": "df94e0ce3658897a5677958417347e1109f91f72b9f75b8fe8f028a70c90b766",
+          "arm64": "1aa1b9c0a3b73f016f6a8d407fa21a89174d01a8e4b9df449eaad49603426734"
         }
       }
     }
@@ -309,13 +309,13 @@
     ]
   },
   "supply_chain": {
-    "homebrew_pkg_version": "6.0.17",
-    "homebrew_pkg_sha256": "70079078573ca0acafbb487c2442f806706a54bf973fe8390da0bd3ac1536d04",
+    "homebrew_pkg_version": "7.0.11",
+    "homebrew_pkg_sha256": "c780771227420177a6b19bd778e351976c2b5064d114f499ca94c0f01e31e8e8",
     "homebrew_installer_team": "927JGANW46"
   },
   "user_tools": {
     "herdr": {
-      "version": "0.8.0",
+      "version": "0.9.5",
       "summary": "Terminal workspace manager for AI coding agents (tmux-style multiplexer with agent session support).",
       "install_method": {
         "linux": "verified-github-release-binary",
@@ -323,25 +323,25 @@
       },
       "source": {
         "repository": "https://github.com/herdrdev/herdr",
-        "tag": "v0.8.0",
-        "tag_object": "857196dee1ce98df53efdd3f437aa2ac8a75b608",
-        "commit": "346411fa21afd297f5ed3b3fa56f9e3fbf7654b7",
-        "release": "https://github.com/herdrdev/herdr/releases/tag/v0.8.0",
+        "tag": "v0.9.5",
+        "tag_object": "7573e821895d32c8d1f78b3f6c9a2f85a46df4ac",
+        "commit": "2ecf19a92fc3a7fff75b6ce3655ef04f4625ec01",
+        "release": "https://github.com/herdrdev/herdr/releases/tag/v0.9.5",
         "release_feed": "https://github.com/herdrdev/herdr/releases.atom",
         "upstream_manifest": "https://herdr.dev/latest.json",
-        "verified_at": "2026-08-13",
+        "verified_at": "2026-11-01",
         "assets": {
           "macos-aarch64": {
-            "url": "https://github.com/herdrdev/herdr/releases/download/v0.8.0/herdr-macos-aarch64",
-            "sha256": "d53a9f93fccfdfcc55632927bf51002f5add0aa7990bcdf508ffbd84ac658178"
+            "url": "https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-macos-aarch64",
+            "sha256": "fb77c2232a05a8035421382c894392f4174e4e38a18e48af3dd0290157c3a7e2"
           },
           "linux-x86_64": {
-            "url": "https://github.com/herdrdev/herdr/releases/download/v0.8.0/herdr-linux-x86_64",
-            "sha256": "b872ea7e40fa2cb17e857ac9b62b1bf26db7b403c622f5d2f3f5b35f6e9acd28"
+            "url": "https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-linux-x86_64",
+            "sha256": "14d9e8bc8b4a9e0118d77c32266f76d461f09b40342eb23752960bd89f59929d"
           },
           "linux-aarch64": {
-            "url": "https://github.com/herdrdev/herdr/releases/download/v0.8.0/herdr-linux-aarch64",
-            "sha256": "f647ac66468d9efbc642fe534fb284468f0aea60641606fc008dfc0d82a3ca87"
+            "url": "https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-linux-aarch64",
+            "sha256": "17d7536f2da50859523680ef279dffcac8e4a235f4e46fe8da6c2ec44141897c"
           }
         }
       },
@@ -367,12 +367,12 @@
       ]
     },
     "telegram": {
-      "version": "7.0.9",
+      "version": "7.3.3",
       "summary": "Telegram Desktop messenger from the official telegramdesktop/tdesktop GitHub release.",
       "install_method": "verified-github-release-tarball",
       "repo": "telegramdesktop/tdesktop",
-      "url": "https://github.com/telegramdesktop/tdesktop/releases/download/v7.0.9/tsetup.7.0.9.tar.xz",
-      "archive_sha256": "d3c05df0259ab116d11d8c1cdc1403019d2a3be303ad3b46d16a84e19df6615f",
+      "url": "https://github.com/telegramdesktop/tdesktop/releases/download/v7.3.3/td-setup-linux-x64-7.3.3.tar.xz",
+      "archive_sha256": "7bcd524ea17f3eefda95b2ffdb3d5b355e7f727d44045a6ff2316cd077355df9",
       "architectures": [
         "x86_64"
       ],
@@ -415,26 +415,26 @@
       "source": "templates/desktop/org.telegram.desktop.desktop",
       "target": "${HOME}/.local/share/applications/org.telegram.desktop.desktop",
       "icon": "org.telegram.desktop",
-      "upstream_source_commit": "a1e89e1f64f08cb058caf1c61ff43f319f98a6ec",
-      "upstream_desktop_entry": "https://github.com/telegramdesktop/tdesktop/blob/v7.0.9/lib/xdg/org.telegram.desktop.desktop",
+      "upstream_source_commit": "5c674f1f6a0f6ace55b67f8bc295138680fe588b",
+      "upstream_desktop_entry": "https://github.com/telegramdesktop/tdesktop/blob/v7.3.3/lib/xdg/org.telegram.desktop.desktop",
       "icon_assets": [
         {
-          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/art/logo_256.png",
+          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/art/logo_256.png",
           "target": "${HOME}/.local/share/icons/hicolor/256x256/apps/org.telegram.desktop.png",
           "sha256": "3fb1400c7dc9bbc3b5cb3ffedcbf4a9b09c53e28b57a7ff33a8a6b9048864090"
         },
         {
-          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/icons/tray_monochrome.svg",
+          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/icons/tray_monochrome.svg",
           "target": "${HOME}/.local/share/icons/hicolor/symbolic/apps/org.telegram.desktop-symbolic.svg",
           "sha256": "a93380f2c7e6aae4d5fde8940020bd966e97ad8c4880f45c016edfef3f5193e1"
         },
         {
-          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/icons/tray_monochrome_attention.svg",
+          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/icons/tray_monochrome_attention.svg",
           "target": "${HOME}/.local/share/icons/hicolor/symbolic/apps/org.telegram.desktop-attention-symbolic.svg",
           "sha256": "2b67ee19839dbbb9f57f2d7433fd6dc1059634d6d081c5e4c422c14f53fcfcc7"
         },
         {
-          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/a1e89e1f64f08cb058caf1c61ff43f319f98a6ec/Telegram/Resources/icons/tray_monochrome_mute.svg",
+          "source_url": "https://raw.githubusercontent.com/telegramdesktop/tdesktop/5c674f1f6a0f6ace55b67f8bc295138680fe588b/Telegram/Resources/icons/tray_monochrome_mute.svg",
           "target": "${HOME}/.local/share/icons/hicolor/symbolic/apps/org.telegram.desktop-mute-symbolic.svg",
           "sha256": "efa1439bd60b58db7b755f5d21be854ea686a0e1e2f1aa6e43bf35c083ee72fc"
         }
