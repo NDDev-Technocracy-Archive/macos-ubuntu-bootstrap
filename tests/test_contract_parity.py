@@ -528,10 +528,10 @@ def test_ci_tool_parity_fails_when_a_pin_moves_on_one_side_only() -> None:
     """
     pinned = (
         "uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/tools@"
-        + "9cc44a5043ddd266f3e73fefacc52f5cf5a7d70f # v0.6.18"
+        + "c192c6adcf22088abf456635de614d42e8fa3f8d # nddev-cicd-v0.6.20"
     )
     assert ci_parity.LIBRARY_TOOLS.search(pinned)
-    for moving in ("@nddev-cicd-v0.6.18", "@main", "@v0", "@9cc44a5"):
+    for moving in ("@nddev-cicd-v0.6.20", "@main", "@v0", "@c192c6a"):
         floating = pinned.split("@", 1)[0] + moving
         assert not ci_parity.LIBRARY_TOOLS.search(floating), moving
     assert ci_parity.check(CONTRACT) == 0
