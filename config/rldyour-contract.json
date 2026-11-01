@@ -489,7 +489,8 @@
       "miller",
       "software-properties-common",
       "wl-clipboard",
-      "libsecret-tools"
+      "libsecret-tools",
+      "libatomic1"
     ],
     "desktop_build": [
       "build-essential"

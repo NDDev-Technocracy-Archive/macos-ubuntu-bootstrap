@@ -82,11 +82,15 @@ CARAPACE_VERSION="1.7.3"
 CARAPACE_SHA256_X64="35ab52bfe7bdd8296d90c3687660bde80497599badde840ab615d2f421f5f053"
 CARAPACE_SHA256_ARM64="b2456cb09d77004db87de2567d6d7588a61ceb4724522c463e2b1c1f87b4d4b9"
 
+# libatomic1 is a runtime library of the pinned Node.js: the official 25+
+# Linux binaries link libatomic.so.1, which the minimal Ubuntu 24.04 and 26.04
+# images do not carry. Nothing else here pulls it in on a server profile, so
+# without it the staged node binary cannot start.
 APT_SOURCE_PACKAGES=(
   ca-certificates curl gpg gnupg git jq python3 python3-venv
   shellcheck shfmt clangd zsh unzip xz-utils wget zip lsb-release yamllint
   fd-find bat fzf zoxide tmux btop duf hexyl gh ripgrep httpie miller
-  software-properties-common wl-clipboard libsecret-tools
+  software-properties-common wl-clipboard libsecret-tools libatomic1
 )
 
 # Registry-backed language servers + source checks, pinned to exact versions
