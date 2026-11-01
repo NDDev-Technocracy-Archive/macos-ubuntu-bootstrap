@@ -110,9 +110,11 @@ EXEMPTION = "exposes no `runner` input"
 # values is the only form of this check that survives a renamed class and
 # turns a hang into a failed test.
 HOSTED_RUNNERS = {
-    "ubuntu-latest", "ubuntu-24.04", "ubuntu-22.04", "ubuntu-24.04-arm",
-    "macos-latest", "macos-15", "macos-14",
-    "windows-latest", "windows-2022",
+    "ubuntu-latest", "ubuntu-26.04", "ubuntu-26.04-arm",
+    "ubuntu-24.04", "ubuntu-22.04", "ubuntu-24.04-arm",
+    "macos-latest", "macos-26", "macos-15", "macos-14",
+    "macos-26-intel", "macos-15-intel",
+    "windows-latest", "windows-2025", "windows-2022", "windows-11-arm",
 }
 
 
@@ -157,7 +159,10 @@ def test_every_reusable_caller_that_can_name_a_runner_does() -> None:
     onto trusted infrastructure with no diff here to review.
     """
     callers = _reusable_callers()
-    assert callers, "no ci-workflows callers found"
+    # Since the move to the STD-0004 library there may be no reusable callers at
+    # all: every job then names its runner itself, which
+    # test_every_job_runs_on_a_hosted_runner checks. Any caller that remains is
+    # still held to the rule below.
     # `has_with` is deliberately not part of this condition. It used to be:
     # the rule only applied to a caller that already passed some input, so
     # deleting the entire `with:` block -- the single edit that most obviously
@@ -188,7 +193,9 @@ def test_every_reusable_caller_that_can_name_a_runner_does() -> None:
         "and this repository is public."
     )
     exempted = [path.name for path, _w, _r, exempt, _v in callers if exempt]
-    assert exempted == ["pr-hygiene.yml"], (
+    # The STD-0004 baseline removed the last reusable caller (pr-hygiene.yml), so
+    # no exemption remains to re-check against a pinned commit.
+    assert exempted == [], (
         f"the exemption list changed: {exempted}. Verify against the reusable's "
         "inputs at the pinned commit before accepting it."
     )
@@ -225,6 +232,19 @@ def _matrix_values(text: str, key: str) -> list[str]:
     return values
 
 
+_INCLUDE_VALUE = re.compile(r"^\s*-?\s*([A-Za-z_][\w-]*):\s*['\"]?([^'\"#\s]+)")
+
+
+def _include_values(text: str, key: str) -> list[str]:
+    """Values of `key` inside `matrix.include` entries (`- os: ubuntu-26.04`)."""
+    values: list[str] = []
+    for line in text.splitlines():
+        match = _INCLUDE_VALUE.match(line)
+        if match and match.group(1) == key and line.strip().startswith('-'):
+            values.append(match.group(2))
+    return values
+
+
 @pytest.mark.parametrize("path", sorted(WORKFLOWS.glob("*.yml")), ids=lambda p: p.name)
 def test_every_job_runs_on_a_hosted_runner(path: Path) -> None:
     """`runs-on` is the other way onto a runner, and the reusable-caller gate
@@ -240,7 +260,7 @@ def test_every_job_runs_on_a_hosted_runner(path: Path) -> None:
         if value.startswith("${{"):
             # Resolve a matrix reference to the values it can take.
             key = value.strip("${} ").split(".")[-1].strip()
-            candidates = _matrix_values(text, key)
+            candidates = _matrix_values(text, key) or _include_values(text, key)
             assert candidates, f"{path.name}: cannot resolve {value}; check it by hand"
         else:
             candidates = [value]
@@ -270,10 +290,21 @@ def test_gitleaks_allowlist_stays_narrow() -> None:
 
 
 def test_secret_scan_uses_the_repository_config() -> None:
-    caller = (WORKFLOWS / "secret-scan.yml").read_text(encoding="utf-8")
-    assert "gitleaks_config_path: .gitleaks.toml" in caller, (
-        "the allowlist has no effect unless the caller passes it"
-    )
+    """Gitleaks reads `.gitleaks.toml` from the scanned root by default; the
+    allowlist has no effect if the scan points elsewhere or names another config."""
+    assert (ROOT / ".gitleaks.toml").is_file()
+    scans = [
+        (path.name, line.strip())
+        for path in sorted(WORKFLOWS.glob("*.yml"))
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.strip().startswith("gitleaks ")
+    ]
+    assert scans, "no workflow runs the Gitleaks secret scan"
+    for name, line in scans:
+        assert line.rstrip().endswith(" ."), f"{name}: Gitleaks must scan the repository root: {line}"
+        assert "--config" not in line and "-c " not in line, (
+            f"{name}: Gitleaks must use the repository .gitleaks.toml: {line}"
+        )
 
 
 def test_no_tracked_document_points_at_a_deleted_memory() -> None:
@@ -334,11 +365,11 @@ def test_ci_and_the_anchor_use_one_test_environment() -> None:
     pytest_workflow = _behaviour(
         (WORKFLOWS / "pytest.yml").read_text(encoding="utf-8")
     )
-    assert f"install_command: bash {SETUP_SCRIPT}" in pytest_workflow, (
+    assert f"bash {SETUP_SCRIPT}" in pytest_workflow, (
         f"pytest.yml must delegate environment setup to {SETUP_SCRIPT}"
     )
-    assert f'uv_version: "{CONTRACT["runtime_support"]["ubuntu_uv"]}"' in pytest_workflow, (
-        "the reusable Python lane must provision the exact uv version that "
+    assert f"version: '{CONTRACT['runtime_support']['ubuntu_uv']}'" in pytest_workflow, (
+        "the setup-uv step must provision the exact uv version that "
         "setup-test-env verifies"
     )
     for setup in ("apt-get install", "uv venv", "uv pip install"):

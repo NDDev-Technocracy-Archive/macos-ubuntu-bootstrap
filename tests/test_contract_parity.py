@@ -521,26 +521,20 @@ def test_ci_runs_the_tools_the_contract_pins() -> None:
 def test_ci_tool_parity_fails_when_a_pin_moves_on_one_side_only() -> None:
     """A validator nobody has seen fail is a validator nobody has tested.
 
-    Both directions matter. Bumping the contract without the caller ships a
-    device a scanner CI never ran; bumping the caller without the contract does
-    the reverse. Neither is visible in a diff that touches one file.
+    The CI lanes now take osv-scanner and actionlint from the STD-0004 library's
+    `tools` action, which fixes each version and verifies its digest. What can
+    move on one side only is that action's reference: a tag or branch would let
+    the tools change without a diff here, so only a full commit SHA binds.
     """
-    import copy
-
-    for path in (
-        ("runtime_support", "ubuntu_pinned_source_tools", "osv-scanner", "version"),
-        ("runtime_support", "ubuntu_pinned_source_tools", "actionlint", "version"),
-    ):
-        mutated = copy.deepcopy(CONTRACT)
-        node = mutated
-        for key in path[:-1]:
-            node = node[key]
-        node[path[-1]] = "0.0.0-not-the-pinned-version"
-        try:
-            ci_parity.check(mutated)
-        except ci_parity.ParityError:
-            continue
-        raise AssertionError(f"moving {'.'.join(path)} alone did not fail the parity check")
+    pinned = (
+        "uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/tools@"
+        + "9cc44a5043ddd266f3e73fefacc52f5cf5a7d70f # v0.6.18"
+    )
+    assert ci_parity.LIBRARY_TOOLS.search(pinned)
+    for moving in ("@nddev-cicd-v0.6.18", "@main", "@v0", "@9cc44a5"):
+        floating = pinned.split("@", 1)[0] + moving
+        assert not ci_parity.LIBRARY_TOOLS.search(floating), moving
+    assert ci_parity.check(CONTRACT) == 0
 
 
 def test_ci_tool_parity_covers_every_workflow_that_names_a_pinned_tool() -> None:
