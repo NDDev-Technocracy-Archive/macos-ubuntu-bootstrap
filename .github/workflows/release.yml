@@ -356,7 +356,7 @@ jobs:
           persist-credentials: false
       # Publication moved from the retired release-supply-chain reusable to the
       # STD-0004 library composite: same assets, one immutable release create.
-      - uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/source-release@ab5739f31d142275590b35c654def3e027ec6c4f # nddev-cicd-v0.6.22
+      - uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/source-release@068c887870bc3cd34ecd69fd762aea3bfd9a4171 # nddev-cicd-v0.6.22
         with:
           version: ${{ needs.resolve.outputs.version }}
           package-name: macos-ubuntu-bootstrap
