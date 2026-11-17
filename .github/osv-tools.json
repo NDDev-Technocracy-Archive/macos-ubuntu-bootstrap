@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "repository": "google/osv-scanner",
+      "asset": 726165286,
+      "tag": "v2.7.1",
+      "name": "osv-scanner_linux_amd64",
+      "size": 58187936,
+      "sha256": "fb7dab19a8bd9bbe5c3189f09d4b7ee1820c9553a23bac202648a56efd2f6ee8",
+      "file": "osv-scanner",
+      "executable": true
+    }
+  ]
+}

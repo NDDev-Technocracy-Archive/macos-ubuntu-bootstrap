@@ -15,4 +15,5 @@ jobs:
       hosted-runner: ubuntu-24.04
       recipe: audit-dependencies
       fetch-depth: 0
+      tool-assets: .github/osv-tools.json
       timeout-minutes: 15

@@ -101,3 +101,10 @@ tier. A successful evidence lane may contain typed `NOT_PROVEN` observations
 only for optional capabilities; every required capability must be `PROVEN`.
 See the [support/evidence reference](docs/reference/support-evidence.md) for the
 typed tiers, current hosted coverage, and explicit real-host gaps.
+
+The hosted source lane declares its verified scanner and ShellCheck archives in
+`.github/source-tools.json`; the dependency lane declares OSV separately in
+`.github/osv-tools.json`. The link lane keeps its existing Lychee-only
+manifest. The installed-identity guard still refuses the OSV contract mismatch;
+normal dependency maintenance must update the version and both platform digests
+together before that lane can pass.
