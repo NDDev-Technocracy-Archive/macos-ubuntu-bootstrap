@@ -34,6 +34,7 @@ import argparse
 import ast
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -54,7 +55,7 @@ COMMON = ROOT / "scripts/lib/common.sh"
 # the providers say so explicitly -- so they all take `x64`.
 CI_TOOL_INPUTS: tuple[tuple[str, str, str, str, str], ...] = ()
 
-# Lanes that acquire a tool through the STD-0004 library's `tools` action. The
+# Lanes that acquire a tool through the published shared source recipe. The
 # library downloads each tool at an exact version and verifies its SHA-256
 # before use, so the binding to check here is the full-SHA pin of the action;
 # a tag or branch reference would let the tool change without a diff.
@@ -63,7 +64,7 @@ LIBRARY_TOOL_LANES: tuple[tuple[str, str], ...] = (
     ("actionlint", "ci.yml"),
 )
 LIBRARY_TOOLS = re.compile(
-    r"uses:\s*NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/\.github/actions/tools@[0-9a-f]{40}\b"
+    r"uses:\s*NDDev-Technocracy-OpenNetwork/nddev-ci/\.github/workflows/recipe\.yml@[0-9a-f]{40}\b"
 )
 
 # Workflows that read a tool's identity out of the contract at run time instead
@@ -136,7 +137,7 @@ def check_tool_parity(contract: dict) -> list[str]:
             findings.append(f"{filename}: named by LIBRARY_TOOL_LANES but absent")
         elif not LIBRARY_TOOLS.search(path.read_text(encoding="utf-8")):
             findings.append(
-                f"{filename}: acquires {tool} without the full-SHA pinned STD-0004 tools action"
+                f"{filename}: acquires {tool} without the full-SHA pinned shared source recipe"
             )
     for tool, filename, version_input, digest_input, arch in CI_TOOL_INPUTS:
         path = WORKFLOWS / filename
@@ -362,22 +363,43 @@ def check(contract: dict | None = None) -> int:
         raise ParityError("\n".join(f"  {item}" for item in findings))
 
     sites = len(CI_TOOL_INPUTS) + len(LIBRARY_TOOL_LANES) + len({name for name, _ in CONTRACT_DERIVED})
-    print(f"ci-tool-parity-ok: {sites} CI call sites bound to the contract")
+    print(f"ci-tool-parity-ok: {sites} source bindings checked; installed identity is separate")
     for tool, filename, _version, _digest, arch in CI_TOOL_INPUTS:
         spec = contract_tool(contract, tool)
         print(f"  {filename}: {tool} {spec['version']} ({arch}), stated and compared")
     for tool, filename in LIBRARY_TOOL_LANES:
-        print(f"  {filename}: {tool} from the SHA-pinned STD-0004 tools action")
+        print(f"  {filename}: {tool} through the SHA-pinned shared source recipe")
     for filename in sorted({name for name, _ in CONTRACT_DERIVED}):
         print(f"  {filename}: reads its tool identities from the contract at run time")
+    return 0
+
+
+
+def check_installed_identity(contract: dict, tool: str, output: str) -> int:
+    expected = str(contract_tool(contract, tool)["version"])
+    match = re.search(r"\b(\d+\.\d+\.\d+)\b", output)
+    actual = match.group(1) if match else "unreported"
+    if actual != expected:
+        raise ParityError(f"installed {tool} {actual} differs from contract {expected}")
+    print(f"installed-tool-identity-ok: {tool} {actual}")
     return 0
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--contract", type=Path, default=CONTRACT_PATH)
+    parser.add_argument("--installed", choices=("actionlint", "osv-scanner"))
     args = parser.parse_args(argv)
-    return check(load_contract(args.contract))
+    contract = load_contract(args.contract)
+    if args.installed:
+        flag = "-version" if args.installed == "actionlint" else "--version"
+        result = subprocess.run(
+            [args.installed, flag], capture_output=True, text=True, check=False
+        )
+        if result.returncode != 0:
+            raise ParityError(f"{args.installed} version query failed: {result.returncode}")
+        return check_installed_identity(contract, args.installed, result.stdout + result.stderr)
+    return check(contract)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,12 @@
+name: security-daily
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+permissions: {}
+jobs:
+  security:
+    uses: NDDev-Technocracy-OpenNetwork/nddev-ci/.github/workflows/security.yml@a12acfc75fd7daee2fac9a246ee60683fe18955b # v0.6.67
+    permissions:
+      contents: read
+      issues: write

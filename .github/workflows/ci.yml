@@ -2,6 +2,7 @@ name: ci
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled, edited]
   push:
     branches: [main]
   workflow_dispatch:
@@ -136,30 +137,22 @@ jobs:
         args=(--profile desktop --no-gui)
         bash scripts/bootstrap.sh --platform "${{ matrix.cross_platform }}" "${args[@]}" --plan --skip-system --skip-checks
   workflow-lint:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/tools@c192c6adcf22088abf456635de614d42e8fa3f8d # nddev-cicd-v0.6.20
-        with:
-          capability: security
-      - name: Lint and audit workflows
-        run: |
-          actionlint .github/workflows/ci.yml .github/workflows/dependency-check.yml .github/workflows/docs-quality.yml .github/workflows/osv-scan.yml .github/workflows/platform-evidence.yml .github/workflows/pytest.yml .github/workflows/semgrep.yml .github/workflows/source-drift.yml .github/workflows/security.yml
-          zizmor --offline --no-progress .github/workflows/ci.yml .github/workflows/dependency-check.yml .github/workflows/docs-quality.yml .github/workflows/osv-scan.yml .github/workflows/platform-evidence.yml .github/workflows/pytest.yml .github/workflows/semgrep.yml .github/workflows/source-drift.yml .github/workflows/security.yml .github/dependabot.yml
-      - name: Scan new pull request commits, or the full history on main
-        env:
-          BASE: ${{ github.event.pull_request.base.sha }}
-          HEAD: ${{ github.event.pull_request.head.sha }}
-        run: |
-          if [ -n "$BASE" ]; then
-            gitleaks git --no-banner --redact --log-opts="$BASE..$HEAD" .
-          else
-            gitleaks git --no-banner --redact .
-          fi
+    uses: NDDev-Technocracy-OpenNetwork/nddev-ci/.github/workflows/recipe.yml@a12acfc75fd7daee2fac9a246ee60683fe18955b # v0.6.67
+    permissions:
+      contents: read
+    with:
+      hosted-runner: ubuntu-24.04
+      recipe: verify
+      arguments: ${{ format('["{0}"]', github.event_name == 'pull_request' && format('{0}..{1}', github.event.pull_request.base.sha, github.event.pull_request.head.sha) || '--all') }}
+      fetch-depth: 0
+      timeout-minutes: 10
+
+  merge-stops:
+    uses: NDDev-Technocracy-OpenNetwork/nddev-ci/.github/workflows/merge-stops.yml@a12acfc75fd7daee2fac9a246ee60683fe18955b # v0.6.67
+    permissions:
+      contents: read
+    with:
+      hosted-runner: ubuntu-24.04
 
   required-contexts:
     runs-on: ubuntu-24.04

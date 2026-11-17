@@ -521,17 +521,17 @@ def test_ci_runs_the_tools_the_contract_pins() -> None:
 def test_ci_tool_parity_fails_when_a_pin_moves_on_one_side_only() -> None:
     """A validator nobody has seen fail is a validator nobody has tested.
 
-    The CI lanes now take osv-scanner and actionlint from the STD-0004 library's
-    `tools` action, which fixes each version and verifies its digest. What can
+    The CI lanes take osv-scanner and actionlint through the shared source
+    recipe, which owns their prepared exact tool versions and digests. What can
     move on one side only is that action's reference: a tag or branch would let
     the tools change without a diff here, so only a full commit SHA binds.
     """
     pinned = (
-        "uses: NDDev-Technocracy-Standarts/std-0004-ci-cd-workflows/.github/actions/tools@"
-        + "c192c6adcf22088abf456635de614d42e8fa3f8d # nddev-cicd-v0.6.20"
+        "uses: NDDev-Technocracy-OpenNetwork/nddev-ci/.github/workflows/recipe.yml@"
+        + "1111111111111111111111111111111111111111 # v1.2.3"
     )
     assert ci_parity.LIBRARY_TOOLS.search(pinned)
-    for moving in ("@nddev-cicd-v0.6.20", "@main", "@v0", "@c192c6a"):
+    for moving in ("@v1.2.3", "@main", "@v0", "@1111111"):
         floating = pinned.split("@", 1)[0] + moving
         assert not ci_parity.LIBRARY_TOOLS.search(floating), moving
     assert ci_parity.check(CONTRACT) == 0
@@ -632,3 +632,13 @@ def test_every_adr_citation_of_a_test_resolves() -> None:
         f"these ADR citations name a test that does not exist: {unresolved}. "
         "Rename the citation with the test, or cite what does enforce the decision."
     )
+
+
+def test_installed_ci_tool_identity_rejects_contract_drift() -> None:
+    for tool in ("actionlint", "osv-scanner"):
+        expected = ci_parity.contract_tool(CONTRACT, tool)["version"]
+        assert ci_parity.check_installed_identity(CONTRACT, tool, f"version {expected}") == 0
+        with pytest.raises(ci_parity.ParityError, match="differs from contract"):
+            ci_parity.check_installed_identity(CONTRACT, tool, "version 99.0.0")
+        with pytest.raises(ci_parity.ParityError, match="unreported"):
+            ci_parity.check_installed_identity(CONTRACT, tool, "no identity")
