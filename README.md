@@ -66,6 +66,16 @@ bash scripts/auth-handoff.sh check
 
 ## Validation
 
+`just check` runs build-free shell, source-contract and workflow checks.
+`just verify` retains the original configured history/diff secret scan;
+`just audit-dependencies` and `just links` preserve the independent source
+security/link jobs. Their shared caller selection is in the workflows. Native
+pytest, platform plans/container evidence and release checks remain separate
+required obligations; source commands perform no host bootstrap or installation.
+The dependency scan also compares its actual OSV identity with the existing
+installer contract. A newer prepared scanner is a visible compatibility/update
+input, not permission to silently change the contract or downgrade the SDK.
+
 ```bash
 bash scripts/ci/setup-test-env.sh
 bash scripts/ci/lint.sh
@@ -91,3 +101,10 @@ tier. A successful evidence lane may contain typed `NOT_PROVEN` observations
 only for optional capabilities; every required capability must be `PROVEN`.
 See the [support/evidence reference](docs/reference/support-evidence.md) for the
 typed tiers, current hosted coverage, and explicit real-host gaps.
+
+The hosted source lane declares its verified scanner and ShellCheck archives in
+`.github/source-tools.json`; the dependency lane declares OSV separately in
+`.github/osv-tools.json`. The link lane keeps its existing Lychee-only
+manifest. The installed-identity guard still refuses the OSV contract mismatch;
+normal dependency maintenance must update the version and both platform digests
+together before that lane can pass.

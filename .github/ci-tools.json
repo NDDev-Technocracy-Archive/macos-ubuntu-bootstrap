@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "repository": "lycheeverse/lychee",
+      "asset": 409959156,
+      "tag": "lychee-v0.24.2",
+      "name": "lychee-x86_64-unknown-linux-gnu.tar.gz",
+      "size": 7626970,
+      "sha256": "1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a",
+      "members": [
+        {
+          "path": "lychee-x86_64-unknown-linux-gnu/lychee",
+          "size": 19827680,
+          "sha256": "87e6e75195df5753f08c53b5c0a13694b8328edd8df009914ae9e29b5000162d",
+          "file": "lychee",
+          "executable": true
+        }
+      ],
+      "file": "lychee-x86_64-unknown-linux-gnu.tar.gz"
+    }
+  ]
+}

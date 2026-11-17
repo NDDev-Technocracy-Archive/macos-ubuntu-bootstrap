@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "repository": "rhysd/actionlint",
+      "asset": 384924896,
+      "tag": "v1.7.12",
+      "name": "actionlint_1.7.12_linux_amd64.tar.gz",
+      "size": 2353908,
+      "sha256": "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8",
+      "file": "actionlint_1.7.12_linux_amd64.tar.gz",
+      "members": [
+        {
+          "path": "actionlint",
+          "size": 6074530,
+          "sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+          "file": "actionlint",
+          "executable": true
+        }
+      ]
+    },
+    {
+      "repository": "zizmorcore/zizmor",
+      "asset": 703541932,
+      "tag": "v1.32.0",
+      "name": "zizmor-x86_64-unknown-linux-gnu.tar.gz",
+      "size": 9418466,
+      "sha256": "bb110cc765eca9cd7efb2e284a956be5974c60027b0970f16397d86208a9957b",
+      "file": "zizmor-x86_64-unknown-linux-gnu.tar.gz",
+      "members": [
+        {
+          "path": "zizmor",
+          "size": 27485344,
+          "sha256": "04d55fb88e582a8e9a9ce6b4753df723fc44c35e0d1a8e8771db9e017066c6df",
+          "file": "zizmor",
+          "executable": true
+        }
+      ]
+    },
+    {
+      "repository": "betterleaks/betterleaks",
+      "asset": 710841396,
+      "tag": "v1.10.0",
+      "name": "betterleaks_1.10.0_linux_x64.tar.gz",
+      "size": 10306114,
+      "sha256": "9d9ad503cd5d80d18a939352266c3fcca52f10da9b83cd5cfe646989b13940fe",
+      "file": "betterleaks_1.10.0_linux_x64.tar.gz",
+      "members": [
+        {
+          "path": "betterleaks",
+          "size": 25133216,
+          "sha256": "d9deb306c80b489512bbca87c39bf4b5f529ce1ab43cd8e0aa444c603085db7e",
+          "file": "betterleaks",
+          "executable": true
+        }
+      ]
+    },
+    {
+      "repository": "koalaman/shellcheck",
+      "asset": 336391469,
+      "tag": "v0.11.0",
+      "name": "shellcheck-v0.11.0.linux.x86_64.tar.gz",
+      "size": 3773312,
+      "sha256": "b7af85e41cc99489dcc21d66c6d5f3685138f06d34651e6d34b42ec6d54fe6f6",
+      "file": "shellcheck-v0.11.0.linux.x86_64.tar.gz",
+      "members": [
+        {
+          "path": "shellcheck-v0.11.0/shellcheck",
+          "size": 16213136,
+          "sha256": "4da528ddb3a4d1b7b24a59d4e16eb2f5fd960f4bd9a3708a15baddbdf1d5a55b",
+          "file": "shellcheck",
+          "executable": true
+        }
+      ]
+    }
+  ]
+}
